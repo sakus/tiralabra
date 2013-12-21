@@ -7,9 +7,10 @@ import javax.swing.JPanel;
 
 /**
  * 
- * @author Saku S??is??
+ * @author Saku Säisä
  * this class handles the rendering of the grid and everything related to it
  */
+@SuppressWarnings("serial")
 class GridRenderer extends JPanel {
 
     /**

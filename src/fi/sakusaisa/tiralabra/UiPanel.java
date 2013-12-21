@@ -10,8 +10,9 @@ import javax.swing.JPanel;
 
 /**
  *
- * @author Saku S??is??
+ * @author Saku Säisä
  */
+@SuppressWarnings("serial")
 public class UiPanel extends JPanel implements ActionListener {
     
     TiraLabra tiraLabra;

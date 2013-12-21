@@ -2,14 +2,12 @@ package fi.sakusaisa.tiralabra;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Timer;
-import java.util.TimerTask;
-
 
 /**
  * A Swing mouse listener for the visual grid.
  * Calls a handler function with information about which cell was clicked on.
- * @author Saku S??is??
+ * 
+ * @author Saku Säisä
  */
 public class GridMouseListener extends MouseAdapter {
     

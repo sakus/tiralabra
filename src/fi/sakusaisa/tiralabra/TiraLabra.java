@@ -8,17 +8,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
- * 
- * @author Saku S??is??
- * 
- * The actual TiraLabra class invokes the program and does the UI
+ * @author Saku Säisä
  */
+@SuppressWarnings("serial")
 public class TiraLabra extends JFrame {
-
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
 	/**
      * The data for all cells in the grid is held in this 2d-array.
@@ -43,7 +36,7 @@ public class TiraLabra extends JFrame {
     private int startCellX, startCellY, goalCellX, goalCellY;    
     private int cellSize = 10;
     protected boolean pathFindingRan = false;
-    private boolean autoRun;    
+    private boolean autoRun;  
     protected boolean diagonalMoveAllowed = false;
     protected boolean useTieBreaker = false;
     private String statusMessage1, statusMessage2;
