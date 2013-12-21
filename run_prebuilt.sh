@@ -1,1 +1,1 @@
-java -jar bin/TiraLabra.jar
+java -jar ./bin/TiraLabra.jar
