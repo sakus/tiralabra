@@ -33,7 +33,7 @@ public class TiraLabra extends JFrame {
     // random variables..
     protected GridRenderer gridRenderer;
     protected int wantedWindowWidth, wantedWindowHeight;
-    private int startCellX, startCellY, goalCellX, goalCellY;    
+    protected int startCellX, startCellY, goalCellX, goalCellY;    
     private int cellSize = 10;
     protected boolean pathFindingRan = false;
     private boolean autoRun;  

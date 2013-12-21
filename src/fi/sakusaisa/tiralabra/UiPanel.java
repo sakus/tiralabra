@@ -21,28 +21,32 @@ public class UiPanel extends JPanel implements ActionListener {
      * wrapper method for TiraLabra's findPath()
      */
     public void findPath() {
-        this.tiraLabra.findPath();
+    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    		this.tiraLabra.findPath();
     }
     
     /**
      * wrapper method for TiraLabra's repaintGrid()
      */
     public void repaintGrid() {
-        this.tiraLabra.gridRenderer.repaint();
+    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    		this.tiraLabra.gridRenderer.repaint();
     }
 
     /**
      * wrapper method for TiraLabra's resetPath()
      */    
     public void resetPath() {
-        this.tiraLabra.resetPath();
+    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    		this.tiraLabra.resetPath();
     }
 
     /**
      * wrapper method for TiraLabra's resetGrid()
      */
     public void resetGrid() {
-        this.tiraLabra.resetGrid();
+    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    		this.tiraLabra.resetGrid();
     }
     
     public UiPanel(TiraLabra tiraLabra) {
