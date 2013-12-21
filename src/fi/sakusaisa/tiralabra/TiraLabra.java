@@ -166,7 +166,7 @@ public class TiraLabra extends JFrame {
                     
                 }
             }
-            
+                        
         }
                 
         // we got all the way to the end.. visualize the path

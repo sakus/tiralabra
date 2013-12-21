@@ -113,7 +113,10 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonPanel.add(checkboxTiebreaker);
         buttonMainPanel.add(buttonPanel);   
         
-        this.add(buttonMainPanel);     
+        this.add(buttonMainPanel, java.awt.BorderLayout.NORTH);     
+        
+        // TODO status message panel
+        
         
     }
  
