@@ -121,12 +121,14 @@ class GridRenderer extends JPanel {
             if (this.tiraLabra.getGridCells()[x][y].getCellData() == 4 && !userMovingGoal) {
             	userMovingStart = true;
             	this.tiraLabra.getGridCells()[x][y].setCellData(1);
+            	this.tiraLabra.resetPath();
             }
             
             // pick up the goal point
             else if (this.tiraLabra.getGridCells()[x][y].getCellData() == 5 && !userMovingStart) {
             	userMovingGoal = true;
             	this.tiraLabra.getGridCells()[x][y].setCellData(1);
+            	this.tiraLabra.resetPath();
             }            
             
             // put down the start point
