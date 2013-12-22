@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 /**
+ * The main TiraLabra class.
+ * 
  * @author Saku Säisä
  */
 @SuppressWarnings("serial")

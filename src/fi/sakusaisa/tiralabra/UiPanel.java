@@ -11,7 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
+ * Builds the UI JPanel.
+ * 
  * @author Saku Säisä
  */
 @SuppressWarnings("serial")

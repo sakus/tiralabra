@@ -1,6 +1,8 @@
 package fi.sakusaisa.tiralabra;
 
 /**
+ * Class representing a single cell / node in the grid
+ * 
  * @author Saku Säisä
  */
 public class GridCell {
