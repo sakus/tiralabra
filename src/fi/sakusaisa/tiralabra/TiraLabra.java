@@ -290,7 +290,7 @@ public class TiraLabra extends JFrame {
     /**
      * The heuristics function for A*.
      * 
-     * @param processCell the cell of which we are processing adjacents cells for
+     * @param processCell the cell we're processing
      * @return the distance to the goal as determined by the heuristic function
      */
     public float aStarHeuristic(GridCell processCell) {    	
