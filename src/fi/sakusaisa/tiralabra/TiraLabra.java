@@ -265,19 +265,19 @@ public class TiraLabra extends JFrame {
                 // check if this way to the cell is shorter than the previously found one
                 if ((currentCell.getDistanceFromStart() + 1) < processCell.getDistanceFromStart()) {
                 
-                // if so, update the information - need to remove from openSet first, then re-add.. SLOW!
-                openSet.remove(processCell);
-                processCell.setArrivedFrom(currentCell);
-                processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
+                	// if so, update the information - need to remove from openSet first, then re-add.. SLOW!
+                	openSet.remove(processCell);
+                	processCell.setArrivedFrom(currentCell);
+                	processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
-                // heuristics if A*
-                if (useAStar)
-                	processCell.setDistanceToGoal(aStarHeuristic(processCell));
-                else
-                	processCell.setDistanceToGoal(0);
+                	// heuristics if A*
+                	if (useAStar)
+                		processCell.setDistanceToGoal(aStarHeuristic(processCell));
+                	else
+                		processCell.setDistanceToGoal(0);
                 
-                processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
-                openSet.add(processCell);
+                	processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
+                	openSet.add(processCell);
 
                 }
 
@@ -311,8 +311,9 @@ public class TiraLabra extends JFrame {
     		return (1 * (dx + dy)) * tieBreaker;
     	
     	// Chebyshev distance when diagonal move enabled
-    	else
+    	else {
     		return (1 * Math.max(dx, dy)) * tieBreaker;
+    	}
     		    
     }
     
