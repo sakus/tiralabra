@@ -6,9 +6,10 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 /**
+ * this class handles the rendering of the grid and everything related to it
  * 
  * @author Saku Säisä
- * this class handles the rendering of the grid and everything related to it
+ * 
  */
 @SuppressWarnings("serial")
 class GridRenderer extends JPanel {

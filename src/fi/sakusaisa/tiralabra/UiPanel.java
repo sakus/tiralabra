@@ -1,11 +1,13 @@
 package fi.sakusaisa.tiralabra;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
@@ -54,14 +56,14 @@ public class UiPanel extends JPanel implements ActionListener {
         this.tiraLabra = tiraLabra;
         
         setMaximumSize(new java.awt.Dimension(50, tiraLabra.wantedWindowHeight));
-        setBackground(Color.black);
+        //setBackground(Color.black);
 
         // buttons have their own jpanel(s)
-        JPanel buttonMainPanel = new JPanel(new GridLayout(4,1));
-        buttonMainPanel.setBackground(Color.black);
+        JPanel buttonMainPanel = new JPanel(new GridLayout(5,1));
+        //buttonMainPanel.setBackground(Color.black);
         
         JPanel buttonPanel = new JPanel(new GridLayout(1,1));
-        buttonPanel.setBackground(Color.black);
+        //buttonPanel.setBackground(Color.black);
         
         JButton findPathButton = new JButton("Find Path");
         findPathButton.addActionListener(new ActionListener() {
@@ -76,7 +78,7 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonMainPanel.add(buttonPanel);
         
         buttonPanel = new JPanel(new GridLayout(1,2));
-        buttonPanel.setBackground(Color.black);
+        //buttonPanel.setBackground(Color.black);
 
         JButton resetPathButton = new JButton("Reset Path");
         resetPathButton.addActionListener(new ActionListener() {
@@ -100,26 +102,32 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonMainPanel.add(buttonPanel);
         
         buttonPanel = new JPanel(new GridLayout(1,1));
-        buttonPanel.setBackground(Color.black);
+        //buttonPanel.setBackground(Color.black);
         JCheckBox checkboxDiagonal = new JCheckBox("Diagonal Movement", false);
         checkboxDiagonal.setName("Diagonal Movement");
         checkboxDiagonal.addActionListener(this);
-        checkboxDiagonal.setForeground(Color.white);
+        //checkboxDiagonal.setForeground(Color.white);
         buttonPanel.add(checkboxDiagonal);
         buttonMainPanel.add(buttonPanel);   
 
         buttonPanel = new JPanel(new GridLayout(1,1));
-        buttonPanel.setBackground(Color.black);
-        JCheckBox checkboxTiebreaker = new JCheckBox("Heuristics Tie-breaker", false);
-        checkboxTiebreaker.setName("Heuristics Tie-breaker");
-        checkboxTiebreaker.addActionListener(this);
-        checkboxTiebreaker.setForeground(Color.white);
-        buttonPanel.add(checkboxTiebreaker);
+        JCheckBox checkboxAStar = new JCheckBox("Use A* (otherwise Dijkstra)", false);
+        checkboxAStar.setName("Use A*");
+        checkboxAStar.addActionListener(this);
+        buttonPanel.add(checkboxAStar);
         buttonMainPanel.add(buttonPanel);   
         
+        buttonPanel = new JPanel(new GridLayout(1,1));
+        //buttonPanel.setBackground(Color.black);
+        JCheckBox checkboxTiebreaker = new JCheckBox("Heuristics Tie-breaker (A*)", false);
+        checkboxTiebreaker.setName("Heuristics Tie-breaker");
+        checkboxTiebreaker.addActionListener(this);
+        //checkboxTiebreaker.setForeground(Color.white);
+        buttonPanel.add(checkboxTiebreaker);
+        buttonMainPanel.add(buttonPanel);   
+
         this.add(buttonMainPanel, java.awt.BorderLayout.NORTH);     
         
-        // TODO status message panel
         
         
     }
@@ -135,13 +143,17 @@ public class UiPanel extends JPanel implements ActionListener {
                 tiraLabra.diagonalMoveAllowed = true;
             if (source.getName().equals("Heuristics Tie-breaker"))
                 tiraLabra.useTieBreaker = true;
+            if (source.getName().equals("Use A*"))
+                tiraLabra.useAStar = true;
         }
         
         else {
             if (source.getName().equals("Diagonal Movement"))
                 tiraLabra.diagonalMoveAllowed = false;
             if (source.getName().equals("Heuristics Tie-breaker"))
-                tiraLabra.useTieBreaker = false;            
+                tiraLabra.useTieBreaker = false;
+            if (source.getName().equals("Use A*"))
+                tiraLabra.useAStar = false;            
         }
 
         if (tiraLabra.pathFindingRan) {

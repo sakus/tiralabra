@@ -13,10 +13,9 @@ import javax.swing.SwingUtilities;
 @SuppressWarnings("serial")
 public class TiraLabra extends JFrame {
 
-	/**
-     * The data for all cells in the grid is held in this 2d-array.
-     */
-    private GridCell[][] gridCells = new GridCell[50][50];
+
+     // The data for all cells in the grid is held in this 2d-array.
+    private GridCell[][] gridCells = new GridCell[90][60];
     
     /**
      * The closed set of nodes for A*
@@ -39,7 +38,9 @@ public class TiraLabra extends JFrame {
     private boolean autoRun;  
     protected boolean diagonalMoveAllowed = false;
     protected boolean useTieBreaker = false;
-    private String statusMessage1, statusMessage2;
+    protected String statusMessage1, statusMessage2, statusMessage3;
+    protected boolean useAStar = false;
+    protected int nodesChecked = 0;
 
     /**
      * Checks whether or not a cell is within the grid
@@ -66,11 +67,18 @@ public class TiraLabra extends JFrame {
         startCellX = 1; startCellY = 1; goalCellX = gridCells.length - 2; goalCellY = gridCells[0].length - 2;
         gridCells[startCellX][startCellY].setCellData(4);
         gridCells[goalCellX][goalCellY].setCellData(5);
+        
+        // reset the stats
+        pathFindingRan = false;
+        statusMessage1 = null;
+        statusMessage2 = null;
+        statusMessage3 = null;
+        nodesChecked = 0;        
 
     }
 
     /**
-     * Resets the found path preserving the obstacles etc
+     * Resets the found path preserving the obstacles and current start/goal positions
      */
     public void resetPath() {
     
@@ -86,17 +94,17 @@ public class TiraLabra extends JFrame {
                 gridCells[i][j].setDistanceFromStart(-1);
                 gridCells[i][j].setDistanceToGoal(-1);
                 gridCells[i][j].setMovementCost(-1);
-                
-                // reset the pathFindinRan flag
-                pathFindingRan = false;
-                
-                // reset status messages
-                statusMessage1 = null;
-                statusMessage2 = null;
-                
+                                
             }
                     
         }
+        
+        // reset the stats
+        pathFindingRan = false;
+        statusMessage1 = null;
+        statusMessage2 = null;
+        statusMessage3 = null;
+        nodesChecked = 0;
         
     }
     
@@ -106,6 +114,9 @@ public class TiraLabra extends JFrame {
      */
     public void findPath() {
         
+        // record the starting time for performance benchmarking
+        long startTime = System.currentTimeMillis();
+
         // reset the path if needed
         if (pathFindingRan)
             resetPath();
@@ -130,9 +141,6 @@ public class TiraLabra extends JFrame {
         // add the starting cell into the open set
         openSet.add(currentCell);
  
-        // record the starting time for performance benchmarking
-        long startTime = System.currentTimeMillis();
-
         // loop until we arrive at the target or the open set becomes empty
         while (currentCell != gridCells[goalCellX][goalCellY] && !openSet.isEmpty()) {
             
@@ -149,19 +157,27 @@ public class TiraLabra extends JFrame {
             currentY = currentCell.getCellY();
             
             // process the adjacent cells (don't touch the current cell itself)
-            for (int y = currentY - 1; y <= currentY + 1; y++) {
+            for (int y = currentY -1; y <= currentY + 1; y++) {
                 for (int x = currentX - 1; x <= currentX + 1; x++) {
                     
-                    // diagonal move enabled
+                	/* if diagonal move is allowed, check cells -1 to +1 in x/y
+                	 * that either have a different x or a different y than the processed cell..
+                	 * this results in 8 cells being processed
+                	 */
                     if (diagonalMoveAllowed) {
-                        if (x != currentX || y != currentY)
+                        if (x != currentX || y != currentY) {
                             findPathProcessCell(x, y, currentCell);
+                        }
                     }
                     
-                    // diagonal move disabled
+                    /* if diagonal move is disabled, then only check the x and y where either
+                     * X or Y (but not both) is the same as the processed cell.. this checks
+                     * 4 of the adjacent cells: directly above, below, left and right
+                     */
                     else if (!diagonalMoveAllowed) {
-                        if (x == currentX || y == currentY && !(x == currentX && y == currentY))
+                        if (x == currentX || y == currentY && !(x == currentX && y == currentY)) {
                             findPathProcessCell(x, y, currentCell);
+                        }
                     }
                     
                 }
@@ -169,7 +185,7 @@ public class TiraLabra extends JFrame {
                         
         }
                 
-        // we got all the way to the end.. visualize the path
+        // visualize the path following hte arrivedFrom flags starting from the goal 
         if (currentCell == gridCells[goalCellX][goalCellY]) {
         
             int pathLength = 1;
@@ -185,15 +201,19 @@ public class TiraLabra extends JFrame {
                 
         if (statusMessage2 == null) statusMessage2 = "no path!";
         
-        // check the time it took to find the path
+        // check the time it took to find the path and visualize it
         long endTime = System.currentTimeMillis();
-        statusMessage1 = "Time taken: " + (endTime - startTime) + "ms";
+        statusMessage1 = "\nTime taken: " + (endTime - startTime) + "ms";
+        statusMessage3 = "Nodes checked: " + nodesChecked;
+        System.out.println(statusMessage1);
+        System.out.println(statusMessage2);
+        System.out.println(statusMessage3);
 
     } 
 
     /**
      * processes a cell as a part of the A* algorithm as long as the cell:
-     * - actually exists in the grid,
+     * - actually exists on the grid,
      * - isn't marked as an obstacle and
      * - isn't already in the closed set
      * 
@@ -216,31 +236,25 @@ public class TiraLabra extends JFrame {
             if (!openSet.contains(processCell)) {
                 
                 // mark the cell as checked, for visualization
-                if (processCell.getCellData() == 1)
+                if (processCell.getCellData() == 1) {
                     processCell.setCellData(3);
+                    nodesChecked++;
+                }
 
-                // set the parent
+                // set the parent and path length so far
                 processCell.setArrivedFrom(currentCell);
-
-                // path length so far
                 processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
-                // heuristics - manhattan distance for non-diagonal movement
-                if (!diagonalMoveAllowed)
-                    processCell.setDistanceToGoal((Math.abs(processX - goalCellX) + Math.abs(processY - goalCellY)));
-                
-                // Chebyshev distance if diagonal movement is allowed
+                // heuristics if A*
+                if (useAStar)
+                	processCell.setDistanceToGoal(aStarHeuristic(processCell));
                 else
-                    processCell.setDistanceToGoal((Math.max(Math.abs(processX - goalCellX), Math.abs(processY - goalCellY))));
-                
-                // tie-breaker to the heuristic
-                if (useTieBreaker) 
-                    processCell.setDistanceToGoal(processCell.getDistanceToGoal() * 1.001f);
+                	processCell.setDistanceToGoal(0);
                 
                 // the combined value of path lenght + approx. length to goal used for evaluating the next step
                 processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
 
-                // add the cell to openSet
+                // add the cell to openSet; as it is a PriorityQeue / binaby min heap, the best option will be on top
                 openSet.add(processCell);
                 
             }
@@ -251,11 +265,17 @@ public class TiraLabra extends JFrame {
                 // check if this way to the cell is shorter than the previously found one
                 if ((currentCell.getDistanceFromStart() + 1) < processCell.getDistanceFromStart()) {
                 
-                // if so, update the information - neet to remove from openSet first, then re-add.. SLOW!
+                // if so, update the information - need to remove from openSet first, then re-add.. SLOW!
                 openSet.remove(processCell);
                 processCell.setArrivedFrom(currentCell);
                 processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
-                processCell.setDistanceToGoal(Math.abs(processX - goalCellX) + Math.abs(processY - goalCellY));
+                
+                // heuristics if A*
+                if (useAStar)
+                	processCell.setDistanceToGoal(aStarHeuristic(processCell));
+                else
+                	processCell.setDistanceToGoal(0);
+                
                 processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
                 openSet.add(processCell);
 
@@ -267,6 +287,34 @@ public class TiraLabra extends JFrame {
 
     }
     
+    /**
+     * The heuristics function for A*.
+     * 
+     * @param processCell the cell of which we are processing adjacents cells for
+     * @return the distance to the goal as determined by the heuristic function
+     */
+    public float aStarHeuristic(GridCell processCell) {    	
+
+    	int dx = Math.abs(processCell.getCellX() - goalCellX);
+    	int dy = Math.abs(processCell.getCellY() - goalCellY);
+    	
+    	float tieBreaker;
+    	if (useTieBreaker) {
+    		tieBreaker = 1.001f;
+    	}
+    	else {
+    		tieBreaker = 1f;
+    	}
+    		
+    	// manhattan distance when diagonal move disabled
+    	if (!diagonalMoveAllowed)
+    		return (1 * (dx + dy)) * tieBreaker;
+    	
+    	// Chebyshev distance when diagonal move enabled
+    	else
+    		return (1 * Math.max(dx, dy)) * tieBreaker;
+    		    
+    }
     
     public GridCell[][] getGridCells() {
         return this.gridCells;
