@@ -14,9 +14,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 class GridRenderer extends JPanel {
 
-    /**
-     * a reference to the used TiraLabra instance
-     */
+    // a reference to the used TiraLabra instance
     private TiraLabra tiraLabra;
 
     // these hold needed information about the grid / its cells

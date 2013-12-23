@@ -19,13 +19,13 @@ public class TiraLabra extends JFrame {
      // The data for all cells in the grid is held in this 2d-array.
     private GridCell[][] gridCells = new GridCell[90][60];
     
-    /**
+    /*
      * The closed set of nodes for A*
      * uses ArrayList at first, will be replaced with something non-premade
      */
     private ArrayList<GridCell> closedSet = new ArrayList<GridCell>();
     
-    /**
+    /*
      * The open set of nodes for A*
      * PQ at first, will implement a binary heap of my own to use for this
      */

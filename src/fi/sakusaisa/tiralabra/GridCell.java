@@ -7,17 +7,14 @@ package fi.sakusaisa.tiralabra;
  */
 public class GridCell {
 
-    /**
-     * the X location of this cell on the grid
-     */
+
+     // the X location of this cell on the grid
     private int cellX;
     
-    /**
-     * the Y location of this cell on the grid
-     */
+    // the Y location of this cell on the grid
     private int cellY;
     
-    /**
+    /*
      * Data about what the cell actually contains.
      * 
      * 0 = un-passable obstacle
@@ -30,27 +27,26 @@ public class GridCell {
      */
     private int cellData;
     
-    /**
+    /*
      * The distance from start to this cell.
      * -1 = not set
      */
     private float distanceFromStart;
     
-   /**
+   /*
     * The distance to goal from this cell.
     * -1 = not set
     */
     private float distanceToGoal;
     
-    /**
+    /*
      * This is the (stupidly named) value that is used to determine the path
      * (distanceFromStart + distanceToGoal)
      */
     private float movementCost;
             
-    /**
-     * The cell this cell was discovered from
-     */
+
+     // The cell this cell was discovered from
     private GridCell arrivedFrom;
         
     /**
