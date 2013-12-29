@@ -36,8 +36,7 @@ public class TiraLabra extends JFrame {
     protected int wantedWindowWidth, wantedWindowHeight;
     protected int startCellX, startCellY, goalCellX, goalCellY;    
     private int cellSize = 10;
-    protected boolean pathFindingRan = false;
-    private boolean autoRun;  
+    protected boolean pathFindingRan = false;  
     protected boolean diagonalMoveAllowed = false;
     protected boolean useTieBreaker = false;
     protected String statusMessage1, statusMessage2, statusMessage3;
@@ -124,23 +123,12 @@ public class TiraLabra extends JFrame {
             resetPath();
         
         pathFindingRan = true;
-        
-        // helper variables so we don't have to do long method calls all the time
-        int currentX;
-        int currentY;
-
-        // clear the open and closed set
         closedSet.clear();
         openSet.clear();
         
-        // grab the starting cell as the current one
+        // grab the starting cell first
         GridCell currentCell = gridCells[startCellX][startCellY];
-                
-        // set the distances for the current cell
         currentCell.setDistanceFromStart(0);
-        currentCell.setDistanceToGoal(Math.abs(startCellX - goalCellX) + Math.abs(startCellY - goalCellY));
-        
-        // add the starting cell into the open set
         openSet.add(currentCell);
  
         // loop until we arrive at the target or the open set becomes empty
@@ -150,47 +138,15 @@ public class TiraLabra extends JFrame {
             currentCell = (GridCell)openSet.remove();
             closedSet.add(currentCell);
             
-            // if we're at the goal, just go ahead and break the loop now
-            if (currentCell == gridCells[goalCellX][goalCellY])
-                break;
-                        
-            // update the helper variables
-            currentX = currentCell.getCellX();
-            currentY = currentCell.getCellY();
+            // check adjacent cells
+            findPathProcessAdjacentCells(currentCell);
             
-            // process the adjacent cells (don't touch the current cell itself)
-            for (int y = currentY -1; y <= currentY + 1; y++) {
-                for (int x = currentX - 1; x <= currentX + 1; x++) {
-                    
-                	/* if diagonal move is allowed, check cells -1 to +1 in x/y
-                	 * that either have a different x or a different y than the processed cell..
-                	 * this results in 8 cells being processed
-                	 */
-                    if (diagonalMoveAllowed) {
-                        if (x != currentX || y != currentY) {
-                            findPathProcessCell(x, y, currentCell);
-                        }
-                    }
-                    
-                    /* if diagonal move is disabled, then only check the x and y where either
-                     * X or Y (but not both) is the same as the processed cell.. this checks
-                     * 4 of the adjacent cells: directly above, below, left and right
-                     */
-                    else if (!diagonalMoveAllowed) {
-                        if (x == currentX || y == currentY && !(x == currentX && y == currentY)) {
-                            findPathProcessCell(x, y, currentCell);
-                        }
-                    }
-                    
-                }
-            }
-                        
         }
                 
         // visualize the path following hte arrivedFrom flags starting from the goal 
         if (currentCell == gridCells[goalCellX][goalCellY]) {
         
-            int pathLength = 1;
+            int pathLength = 0;
             
             while (currentCell.getArrivedFrom() != gridCells[startCellX][startCellY]) {
                 currentCell.getArrivedFrom().setCellData(2);
@@ -213,6 +169,44 @@ public class TiraLabra extends JFrame {
 
     } 
 
+    /**
+     * Process the adjacent cells of the current cell
+     */
+    public void findPathProcessAdjacentCells(GridCell currentCell) {
+    	
+        // update the helper variables
+        int currentX = currentCell.getCellX();
+        int currentY = currentCell.getCellY();
+
+        // process the adjacent cells (don't touch the current cell itself)
+        for (int y = currentY -1; y <= currentY + 1; y++) {
+            for (int x = currentX - 1; x <= currentX + 1; x++) {
+                
+            	/* if diagonal move is allowed, check cells -1 to +1 in x/y
+            	 * that either have a different x or a different y than the processed cell..
+            	 * this results in 8 cells being processed
+            	 */
+                if (diagonalMoveAllowed) {
+                    if (x != currentX || y != currentY) {
+                        findPathProcessCell(x, y, currentCell);
+                    }
+                }
+                
+                /* if diagonal move is disabled, then only check the x and y where either
+                 * X or Y (but not both) is the same as the processed cell.. this checks
+                 * 4 of the adjacent cells: directly above, below, left and right
+                 */
+                else if (!diagonalMoveAllowed) {
+                    if (x == currentX || y == currentY && !(x == currentX && y == currentY)) {
+                        findPathProcessCell(x, y, currentCell);
+                    }
+                }
+                
+            }
+        }
+
+    }
+    
     /**
      * processes a cell as a part of the A* algorithm as long as the cell:
      * - actually exists on the grid,
@@ -249,7 +243,7 @@ public class TiraLabra extends JFrame {
                 
                 // heuristics if A*
                 if (useAStar)
-                	processCell.setDistanceToGoal(aStarHeuristic(processCell));
+                	processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
                 else
                 	processCell.setDistanceToGoal(0);
                 
@@ -274,7 +268,7 @@ public class TiraLabra extends JFrame {
                 
                 	// heuristics if A*
                 	if (useAStar)
-                		processCell.setDistanceToGoal(aStarHeuristic(processCell));
+                		processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
                 	else
                 		processCell.setDistanceToGoal(0);
                 
@@ -295,7 +289,7 @@ public class TiraLabra extends JFrame {
      * @param processCell the cell we're processing
      * @return the distance to the goal as determined by the heuristic function
      */
-    public float aStarHeuristic(GridCell processCell) {    	
+    public float aStarHeuristic(GridCell processCell, GridCell currentCell) {    	
 
     	int dx = Math.abs(processCell.getCellX() - goalCellX);
     	int dy = Math.abs(processCell.getCellY() - goalCellY);
@@ -314,7 +308,16 @@ public class TiraLabra extends JFrame {
     	
     	// Chebyshev distance when diagonal move enabled
     	else {
-    		return (1 * Math.max(dx, dy)) * tieBreaker;
+    		int cost = 1;
+    		
+    		/*
+    		 * if it's a diagonal cell, make movement to it cost twice that of a non-diagonal cell,
+    		 * so that diagonal move is allowed but the cost of going one step NE will be the same as going
+    		 * first N and then E to end up in the same cell
+    		 */
+    		if (processCell.getCellX() != currentCell.getCellX() && processCell.getCellY() != currentCell.getCellY())
+    			cost = 2;
+    		return (cost * Math.max(dx, dy)) * tieBreaker;
     	}
     		    
     }

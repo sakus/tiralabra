@@ -18,9 +18,10 @@ class GridRenderer extends JPanel {
     private TiraLabra tiraLabra;
 
     // these hold needed information about the grid / its cells
-    protected int cellsX, cellsY, cellSize, lastMouseX, lastMouseY;
-    protected boolean userMovingStart = false;
-    protected boolean userMovingGoal = false;
+    protected int cellsX, cellsY, cellSize;
+
+    // a reference to the gridmouselistener
+    protected GridMouseListener gridMouseListener;
     
     /**
      * Constructor.
@@ -33,7 +34,7 @@ class GridRenderer extends JPanel {
         this.cellsY = tiraLabra.getGridCells()[0].length;
         this.cellSize = tiraLabra.getCellSize();
         
-        GridMouseListener gridMouseListener = new GridMouseListener(this);
+        this.gridMouseListener = new GridMouseListener(this, this.tiraLabra);
         
         this.addMouseListener(gridMouseListener);
         this.addMouseMotionListener(gridMouseListener);
@@ -103,80 +104,6 @@ class GridRenderer extends JPanel {
         return this.cellsY;
     }
     
-    /**
-     * Manipulates the grid based on what was clicked on
-     * @param x of the cell that was clicked on
-     * @param y of the cell that was clicked on
-     * @param drag is this a dragging event or not
-     */
-    public void mouseClickOn(int x, int y, boolean drag) {
-        
-        // if not dragging, set these as -1 so the mouse movement detection won't kick in
-        if (!drag) {
-            lastMouseX = -1;
-            lastMouseY = -1;
-                        
-            // pick up the start point
-            if (this.tiraLabra.getGridCells()[x][y].getCellData() == 4 && !userMovingGoal) {
-            	userMovingStart = true;
-            	this.tiraLabra.getGridCells()[x][y].setCellData(1);
-            	this.tiraLabra.resetPath();
-            }
-            
-            // pick up the goal point
-            else if (this.tiraLabra.getGridCells()[x][y].getCellData() == 5 && !userMovingStart) {
-            	userMovingGoal = true;
-            	this.tiraLabra.getGridCells()[x][y].setCellData(1);
-            	this.tiraLabra.resetPath();
-            }            
-            
-            // put down the start point
-            else if (userMovingStart && this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
-            	userMovingStart = false;
-            	this.tiraLabra.getGridCells()[x][y].setCellData(4);
-            	this.tiraLabra.startCellX = x;
-            	this.tiraLabra.startCellY = y;
-            }
 
-            // put down the start point
-            else if (userMovingGoal && this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
-            	userMovingGoal = false;
-            	this.tiraLabra.getGridCells()[x][y].setCellData(5);
-            	this.tiraLabra.goalCellX = x;
-            	this.tiraLabra.goalCellY = y;
-            }
-
-            // just switch obstacle <-> clear
-            else {
-
-                if (this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
-                    this.tiraLabra.getGridCells()[x][y].setCellData(0);
-                }
-                else if (this.tiraLabra.getGridCells()[x][y].getCellData() == 0) {
-                    this.tiraLabra.getGridCells()[x][y].setCellData(1);
-                }            	
-            	
-            }
-            
-        }
-        
-        // detect moving
-        else if (x != lastMouseX || y != lastMouseY) {
-
-            if (this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
-                this.tiraLabra.getGridCells()[x][y].setCellData(0);
-            }
-            else if (this.tiraLabra.getGridCells()[x][y].getCellData() == 0) {
-                this.tiraLabra.getGridCells()[x][y].setCellData(1);
-            }
-
-        }
-        
-        lastMouseX = x;
-        lastMouseY = y;
-        
-        repaint();
-        
-    }
     
 }

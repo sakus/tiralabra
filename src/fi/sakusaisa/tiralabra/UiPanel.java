@@ -21,7 +21,7 @@ public class UiPanel extends JPanel implements ActionListener {
      * wrapper method for TiraLabra's findPath()
      */
     public void findPath() {
-    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
     		this.tiraLabra.findPath();
     }
     
@@ -29,7 +29,7 @@ public class UiPanel extends JPanel implements ActionListener {
      * wrapper method for TiraLabra's repaintGrid()
      */
     public void repaintGrid() {
-    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
     		this.tiraLabra.gridRenderer.repaint();
     }
 
@@ -37,7 +37,7 @@ public class UiPanel extends JPanel implements ActionListener {
      * wrapper method for TiraLabra's resetPath()
      */    
     public void resetPath() {
-    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
     		this.tiraLabra.resetPath();
     }
 
@@ -45,7 +45,7 @@ public class UiPanel extends JPanel implements ActionListener {
      * wrapper method for TiraLabra's resetGrid()
      */
     public void resetGrid() {
-    	if (!this.tiraLabra.gridRenderer.userMovingStart && !this.tiraLabra.gridRenderer.userMovingGoal)
+    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
     		this.tiraLabra.resetGrid();
     }
     
