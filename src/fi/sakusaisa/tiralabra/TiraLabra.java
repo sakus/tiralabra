@@ -145,18 +145,10 @@ public class TiraLabra extends JFrame {
                 
         // visualize the path following hte arrivedFrom flags starting from the goal 
         if (currentCell == gridCells[goalCellX][goalCellY]) {
-        
-            int pathLength = 0;
-            
-            while (currentCell.getArrivedFrom() != gridCells[startCellX][startCellY]) {
-                currentCell.getArrivedFrom().setCellData(2);
-                currentCell = currentCell.getArrivedFrom();
-                pathLength++;
-            }
-            
-            statusMessage2 = "Path length: " + pathLength;
+        	visualizePath(currentCell);
         }
-                
+
+        // is this statusmessage hasn't been set, we know there was no path found
         if (statusMessage2 == null) statusMessage2 = "no path!";
         
         // check the time it took to find the path and visualize it
@@ -169,6 +161,23 @@ public class TiraLabra extends JFrame {
 
     } 
 
+    /**
+     * Visualizes the found path by setting the correct content data on each cell along the path
+     */
+    public void visualizePath(GridCell currentCell) {
+    	
+        int pathLength = 0;
+        
+        while (currentCell.getArrivedFrom() != gridCells[startCellX][startCellY]) {
+            currentCell.getArrivedFrom().setCellData(2);
+            currentCell = currentCell.getArrivedFrom();
+            pathLength++;
+        }
+        
+        statusMessage2 = "Path length: " + pathLength;
+    	
+    }
+    
     /**
      * Process the adjacent cells of the current cell
      */
