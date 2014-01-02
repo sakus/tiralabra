@@ -43,8 +43,8 @@ public class MinBinaryHeapTest {
 		gridCell.setMovementCost(2);
 		testHeap.insert(gridCell);
 
+		assertEquals("size should be 2", 2, testHeap.getHeapSize());
 		testHeap.clear();
-		
 		assertEquals("size should be back to 0", 0, testHeap.getHeapSize());
 	}
 
@@ -77,17 +77,38 @@ public class MinBinaryHeapTest {
 		gridCell.setMovementCost(0.5f);
 		testHeap.insert(gridCell);
 		assertEquals("now it should be 0.5", 0.5f, testHeap.findMin().getMovementCost(), 0.0001f);
+		assertEquals("and the size should be 5", 5, testHeap.getHeapSize());
 
 	}
 
 	@Test
 	public void testDelMin() {
-		fail("Not yet implemented");
-	}
 
-	@Test
-	public void testFindMin() {
-		fail("Not yet implemented");
+		MinBinaryHeap testHeap = new MinBinaryHeap();
+		
+		GridCell gridCell = new GridCell(0, 0);
+		gridCell.setMovementCost(6);
+		testHeap.insert(gridCell);
+
+		gridCell = new GridCell(1, 0);
+		gridCell.setMovementCost(2);
+		testHeap.insert(gridCell);
+
+		gridCell = new GridCell(2, 0);
+		gridCell.setMovementCost(1.25f);
+		testHeap.insert(gridCell);
+
+		gridCell = new GridCell(3, 0);
+		gridCell.setMovementCost(100);
+		testHeap.insert(gridCell);
+
+		assertEquals("first, heap size is 4", 4, testHeap.getHeapSize());
+		
+		GridCell returnedCell = testHeap.delMin();
+		assertEquals("now it should be 3", 3, testHeap.getHeapSize());
+		assertEquals("and the returned cell should have a vlaue of 1.25", 1.25f, returnedCell.getMovementCost(), 0.0001f);
+		assertEquals("the top of the heap is now 2", 2f, testHeap.findMin().getMovementCost(), 0.0001f);
+		
 	}
 	
 }
