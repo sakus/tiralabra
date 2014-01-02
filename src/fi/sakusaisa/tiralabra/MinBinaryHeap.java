@@ -8,6 +8,8 @@ package fi.sakusaisa.tiralabra;
  */
 public class MinBinaryHeap {
 
+	// TODO: this class has not yet been used or tested in any way and surely doesn't work 100% as is
+	
 	private GridCell[] heapArray;
 	private int heapSize;
 	
@@ -100,6 +102,8 @@ public class MinBinaryHeap {
 	 * @param gridCell the GridCell to be added
 	 */
 	public void insert(GridCell gridCell) {
+	
+		// TODO have to increase the size of the array when needed
 		
 		// make the heap one slot bigger
 		heapSize++;
