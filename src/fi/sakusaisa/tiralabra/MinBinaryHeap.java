@@ -12,7 +12,7 @@ public class MinBinaryHeap {
 	private int heapSize;
 	
 	public MinBinaryHeap() {
-		heapArray = new GridCell[100];
+		heapArray = new GridCell[5500];
 		heapSize = 0;
 	}
 
@@ -91,8 +91,9 @@ public class MinBinaryHeap {
 	 * Clears the heap of all data making it empty.
 	 */
 	public void clear() {
-		heapArray = new GridCell[100];
 		heapSize = 0;
+		for (int i = 0; i < heapArray.length; i++)
+			heapArray[i] = null;
 	}
 	
 	/**
@@ -149,6 +150,45 @@ public class MinBinaryHeap {
 	 */
 	public int getHeapSize() {
 		return this.heapSize;
+	}
+	
+	/**
+	 * Is the heap empty or not.
+	 * 
+	 * @return true is the heap is empty, false otherwise
+	 */
+	public boolean isEmpty() {
+		return this.heapSize == 0;
+	}
+	
+	/**
+	 * Checks whether the heap contains a certain instance of gridcell
+	 * 
+	 * @param gridCell the instance we're looking for
+	 * @return the index the cell was found at, -1 if not found
+	 */
+	public int contains(GridCell gridCell) {
+	
+		int found = -1;
+		
+		for (int i = 1; i <= heapSize; i++) {
+			if (heapArray[i] == gridCell) found = i;
+		}
+		
+		return found;
+		
+	}
+	
+	/**
+	 * Removes a gridcell at a given index. This is done by cheating a bit. The value is set
+	 * to as big as possible, then we run heapify to bump it to the end of the heap and finally
+	 * we decrease the heapsize by 1, effectively leaving the wanted gridcell out of the heap.
+	 * @param index The index of the cell you want to remove.
+	 */
+	public void removeAtIndex(int index) {
+		heapArray[index].setMovementCost(999999999);
+		heapify(1);
+		heapSize--;
 	}
 	
 }
