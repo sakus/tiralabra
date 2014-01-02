@@ -23,8 +23,8 @@ public class MinBinaryHeap {
 	 * @param index The index of the object whose parent you want.
 	 * @return The parent object.
 	 */
-	private int getParent(int index) {
-		return (index+1)/2;
+	protected int getParent(int index) {
+		return index / 2;
 	}
 	
 	/**
@@ -32,8 +32,8 @@ public class MinBinaryHeap {
 	 * @param index The index of the object whose child you want.
 	 * @return The index of the child.
 	 */
-	private int getRightChild(int index) {
-		return 2 * (index+1);
+	protected int getRightChild(int index) {
+		return 2 * index;
 	}
 	
 	/**
@@ -41,8 +41,8 @@ public class MinBinaryHeap {
 	 * @param index The index of the object whose child you want.
 	 * @return The index of the child.
 	 */
-	private int getLeftChild(int index) {
-		return 2 * (index+1) + 1;
+	protected int getLeftChild(int index) {
+		return 2 * index + 1;
 	}
 	
 	/**
@@ -109,11 +109,12 @@ public class MinBinaryHeap {
 		heapSize++;
 		
 		// traverse the heap "upwards" until the correct position is found
-		int i = heapSize;
-		while (i > 0 && heapArray[getParent(i)].getMovementCost() > gridCell.getMovementCost()) {
-			heapArray[i] = heapArray[getParent(i)];
-			i = getParent(i);
+		int i = heapSize;		
+		while (i > 1 && heapArray[getParent(i)].getMovementCost() > gridCell.getMovementCost()) {
+				heapArray[i] = heapArray[getParent(i)];
+				i = getParent(i);
 		}
+		
 		heapArray[i] = gridCell;
 		
 	}
@@ -125,12 +126,12 @@ public class MinBinaryHeap {
 	public GridCell delMin() {
 		
 		// grab the cell from the top of the heap
-		GridCell min = heapArray[0];
+		GridCell min = heapArray[1];
 		
 		// move the last cell into the top, mark the heap as 1 cell smaller and heapify
-		heapArray[0] = heapArray[heapSize];
+		heapArray[1] = heapArray[heapSize];
 		heapSize--;
-		heapify(0);
+		heapify(1);
 		
 		// finally return the old top of the heap
 		return min;
@@ -141,7 +142,15 @@ public class MinBinaryHeap {
 	 * @return The GridCell currently on top of the heap.
 	 */
 	public GridCell findMin() {
-		return heapArray[0];
+		return heapArray[1];
+	}
+	
+	/**
+	 * Get the size of the heap.
+	 * @return The heap size in int.
+	 */
+	public int getHeapSize() {
+		return this.heapSize;
 	}
 	
 }
