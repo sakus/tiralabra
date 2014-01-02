@@ -7,8 +7,6 @@ package fi.sakusaisa.tiralabra;
  *
  */
 public class MinBinaryHeap {
-
-	// TODO: this class has not yet been used or tested in any way and surely doesn't work 100% as is
 	
 	private GridCell[] heapArray;
 	private int heapSize;
