@@ -11,8 +11,13 @@ public class MinBinaryHeap {
 	private GridCell[] heapArray;
 	private int heapSize;
 	
-	public MinBinaryHeap() {
-		heapArray = new GridCell[5500];
+	/**
+	 * Constructor.
+	 * 
+	 * @param initialSize The size of the array holding the heap. Will be increased as needed.
+	 */
+	public MinBinaryHeap(int initialSize) {
+		heapArray = new GridCell[initialSize];
 		heapSize = 0;
 	}
 
@@ -102,7 +107,19 @@ public class MinBinaryHeap {
 	 */
 	public void insert(GridCell gridCell) {
 	
-		// TODO have to increase the size of the array when needed
+		// double the size of the array if it's full
+		if (this.heapSize >= heapArray.length-2) {
+			
+			GridCell[] newHeapArray = new GridCell[heapArray.length * 2];
+			
+			for (int i = 0; i < heapArray.length-1; i++) {
+				newHeapArray[i] = heapArray[i];
+			}
+
+			heapArray = newHeapArray;
+			newHeapArray = null;
+			
+		}
 		
 		// make the heap one slot bigger
 		heapSize++;
@@ -114,6 +131,7 @@ public class MinBinaryHeap {
 				i = getParent(i);
 		}
 		
+		// insert into the heap
 		heapArray[i] = gridCell;
 		
 	}

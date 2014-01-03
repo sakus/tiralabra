@@ -9,14 +9,14 @@ public class MinBinaryHeapTest {
 	@Test
 	public void testMinBinaryHeap() {
 		
-		MinBinaryHeap testHeap = new MinBinaryHeap();
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
 		assertEquals("testHeap size should be 0", 0, testHeap.getHeapSize());
 	}
 
 	@Test
 	public void testGetHeapSize() {
 		
-		MinBinaryHeap testHeap = new MinBinaryHeap();
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
 		
 		GridCell gridCell = new GridCell(0, 0);
 		gridCell.setMovementCost(2);
@@ -33,7 +33,7 @@ public class MinBinaryHeapTest {
 	@Test
 	public void testClear() {
 
-		MinBinaryHeap testHeap = new MinBinaryHeap();
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
 		
 		GridCell gridCell = new GridCell(0, 0);
 		gridCell.setMovementCost(2);
@@ -51,7 +51,7 @@ public class MinBinaryHeapTest {
 	@Test
 	public void testInsert() {
 		
-		MinBinaryHeap testHeap = new MinBinaryHeap();
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
 		
 		GridCell gridCell = new GridCell(0, 0);
 		gridCell.setMovementCost(2);
@@ -84,7 +84,7 @@ public class MinBinaryHeapTest {
 	@Test
 	public void testDelMin() {
 
-		MinBinaryHeap testHeap = new MinBinaryHeap();
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
 		
 		GridCell gridCell = new GridCell(0, 0);
 		gridCell.setMovementCost(6);

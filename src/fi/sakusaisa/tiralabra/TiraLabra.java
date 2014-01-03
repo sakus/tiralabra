@@ -1,8 +1,5 @@
 package fi.sakusaisa.tiralabra;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.PriorityQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -17,14 +14,16 @@ public class TiraLabra extends JFrame {
 
 
      // The data for all cells in the grid is held in this 2d-array.
-    private GridCell[][] gridCells = new GridCell[90][60];
+    private GridCell[][] gridCells = new GridCell[75][50];
         
     // closed set as a simple boolean matrix
-    private boolean[][] customClosedSet = new boolean[gridCells.length][gridCells[0].length];
+    private boolean[][] closedSet = new boolean[gridCells.length][gridCells[0].length];
+    //private ArrayList<GridCell> closedSet = new ArrayList<GridCell>();
 
     // open set as a custom binary heap implementation
-    private MinBinaryHeap customOpenSet;
-
+    private MinBinaryHeap openSet;
+    //private PriorityQueue<GridCell> openSet;
+    
     // random variables..
     protected GridRenderer gridRenderer;
     protected int wantedWindowWidth, wantedWindowHeight;
@@ -116,25 +115,26 @@ public class TiraLabra extends JFrame {
         pathFindingRan = true;
 
         // clear the sets
-        for (int i = 0; i < customClosedSet.length; i++) {
-        	for (int j = 0; j < customClosedSet[0].length; j++) {
-        		customClosedSet[i][j] = false;
+        for (int i = 0; i < closedSet.length; i++) {
+        	for (int j = 0; j < closedSet[0].length; j++) {
+        		closedSet[i][j] = false;
         	}
         }
-        customOpenSet.clear();
+        openSet.clear();
         
         // grab the starting cell first
         GridCell currentCell = gridCells[startCellX][startCellY];
         currentCell.setDistanceFromStart(0);
-        customOpenSet.insert(currentCell);
+        openSet.insert(currentCell);
  
         // loop until we arrive at the target or the open set becomes empty
-        while (currentCell != gridCells[goalCellX][goalCellY] && !customOpenSet.isEmpty()) {
+        while (currentCell != gridCells[goalCellX][goalCellY] && !openSet.isEmpty()) {
+        	
             // take the cell with the smallest movementCost and move it over to closedSet
-        	currentCell = customOpenSet.delMin();
+        	currentCell = openSet.delMin();
         	
             //closedSet.add(currentCell);
-            customClosedSet[currentCell.getCellX()][currentCell.getCellY()] = true;
+            closedSet[currentCell.getCellX()][currentCell.getCellY()] = true;
             
             // check adjacent cells
             findPathProcessAdjacentCells(currentCell);
@@ -235,10 +235,10 @@ public class TiraLabra extends JFrame {
         // grab a reference to the considered cell
         GridCell processCell = gridCells[processX][processY];
 
-        if (processCell.getCellData() != 0 && customClosedSet[processCell.getCellX()][processCell.getCellY()] == false) {
+        if (processCell.getCellData() != 0 && closedSet[processCell.getCellX()][processCell.getCellY()] == false) {
         	
             // if the cell isn't in the open set..
-        	foundAtIndex = customOpenSet.contains(processCell);
+        	foundAtIndex = openSet.contains(processCell);
         	if (foundAtIndex == -1) {
         		
                 // mark the cell as checked, for visualization
@@ -261,7 +261,7 @@ public class TiraLabra extends JFrame {
                 processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
 
                 // add the cell to openSet; as it is a binaby min heap, the best option will be on top
-                customOpenSet.insert(processCell);
+                openSet.insert(processCell);
                 
             }
 
@@ -272,7 +272,7 @@ public class TiraLabra extends JFrame {
                 if ((currentCell.getDistanceFromStart() + 1) < processCell.getDistanceFromStart()) {
                 
                 	// if so, update the information - need to remove from openSet first, then re-add.. SLOW!
-                	customOpenSet.removeAtIndex(foundAtIndex);
+                	openSet.removeAtIndex(foundAtIndex);
                 	processCell.setArrivedFrom(currentCell);
                 	processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
@@ -283,7 +283,7 @@ public class TiraLabra extends JFrame {
                 		processCell.setDistanceToGoal(0);
                 
                 	processCell.setMovementCost(processCell.getDistanceFromStart() + processCell.getDistanceToGoal());
-                	customOpenSet.insert(processCell);
+                	openSet.insert(processCell);
 
                 }
 
@@ -355,8 +355,20 @@ public class TiraLabra extends JFrame {
         
         // initialize data
         resetGrid();
-                
-        customOpenSet = new MinBinaryHeap();
+        openSet = new MinBinaryHeap(100);
+        
+        /*
+		openSet = new PriorityQueue<GridCell>(100, new Comparator<GridCell>() {
+ 			@Override
+ 			public int compare(GridCell gc1, GridCell gc2) {
+ 				float cost1 = gc1.getMovementCost();
+ 				float cost2 = gc2.getMovementCost();
+ 				if (cost1 < cost2) return -1;
+ 				else if (cost1 > cost2) return 1;
+ 				else return 0;
+ 			}
+		});
+        */
         
         // set the JPanel for the grid renderer
         gridRenderer = new GridRenderer(this);
