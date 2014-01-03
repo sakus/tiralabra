@@ -14,10 +14,11 @@ public class MinBinaryHeap {
 	/**
 	 * Constructor.
 	 * 
-	 * @param initialSize The size of the array holding the heap. Will be increased as needed.
+	 * @param initialSize The size of the array holding the heap. Will be increased as needed. Minimum size is 2.
 	 */
 	public MinBinaryHeap(int initialSize) {
-		heapArray = new GridCell[initialSize];
+		if (initialSize < 2) heapArray = new GridCell[2];
+		else heapArray = new GridCell[initialSize];
 		heapSize = 0;
 	}
 
@@ -112,7 +113,7 @@ public class MinBinaryHeap {
 			
 			GridCell[] newHeapArray = new GridCell[heapArray.length * 2];
 			
-			for (int i = 0; i < heapArray.length-1; i++) {
+			for (int i = 0; i < heapArray.length; i++) {
 				newHeapArray[i] = heapArray[i];
 			}
 
@@ -142,16 +143,23 @@ public class MinBinaryHeap {
 	 */
 	public GridCell delMin() {
 		
-		// grab the cell from the top of the heap
-		GridCell min = heapArray[1];
+		if (heapSize > 0) {
+			
+			// grab the cell from the top of the heap
+			GridCell min = heapArray[1];
+			
+			// move the last cell into the top, mark the heap as 1 cell smaller and heapify
+			heapArray[1] = heapArray[heapSize];
+			heapSize--;
+			heapify(1);
+			
+			// finally return the old top of the heap
+			return min;
+			
+		}
 		
-		// move the last cell into the top, mark the heap as 1 cell smaller and heapify
-		heapArray[1] = heapArray[heapSize];
-		heapSize--;
-		heapify(1);
+		else return null;
 		
-		// finally return the old top of the heap
-		return min;
 	}
 	
 	/**
@@ -198,15 +206,16 @@ public class MinBinaryHeap {
 	}
 	
 	/**
-	 * Removes a gridcell at a given index. This is done by cheating a bit. The value is set
-	 * to as big as possible, then we run heapify to bump it to the end of the heap and finally
-	 * we decrease the heapsize by 1, effectively leaving the wanted gridcell out of the heap.
-	 * @param index The index of the cell you want to remove.
+	 * Removes a given node from anywhere in the heap. This is done by replacing
+	 * the node to be deleted with the rightmost leaf, then by decresing the heap
+	 * size by 1 and finally calling heapify starting from the deleted index.
+	 * 
+	 * @param index The index of the node to remove.
 	 */
 	public void removeAtIndex(int index) {
-		heapArray[index].setMovementCost(999999999);
-		heapify(1);
+		heapArray[index] = heapArray[heapSize];
 		heapSize--;
+		heapify(index);
 	}
 	
 }

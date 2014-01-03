@@ -51,7 +51,7 @@ public class MinBinaryHeapTest {
 	@Test
 	public void testInsert() {
 		
-		MinBinaryHeap testHeap = new MinBinaryHeap(100);
+		MinBinaryHeap testHeap = new MinBinaryHeap(2);
 		
 		GridCell gridCell = new GridCell(0, 0);
 		gridCell.setMovementCost(2);
@@ -108,6 +108,57 @@ public class MinBinaryHeapTest {
 		assertEquals("now it should be 3", 3, testHeap.getHeapSize());
 		assertEquals("and the returned cell should have a vlaue of 1.25", 1.25f, returnedCell.getMovementCost(), 0.0001f);
 		assertEquals("the top of the heap is now 2", 2f, testHeap.findMin().getMovementCost(), 0.0001f);
+		returnedCell = testHeap.delMin();
+		assertEquals("value 2 is now returned", 2f, returnedCell.getMovementCost(), 0.0001f);
+		assertEquals("the top of the heap is now 6", 6f, testHeap.findMin().getMovementCost(), 0.0001f);
+		
+	}
+
+	@Test
+	public void testContains() {
+	
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
+
+		GridCell gridCell1 = new GridCell(0, 0);
+		gridCell1.setMovementCost(6);
+		testHeap.insert(gridCell1);
+
+		GridCell gridCell2 = new GridCell(1, 0);
+		gridCell2.setMovementCost(2);
+		testHeap.insert(gridCell2);
+
+		GridCell gridCell3 = new GridCell(2, 0);
+		gridCell3.setMovementCost(9.64f);
+
+		assertTrue("should be something else than -1", testHeap.contains(gridCell1) != -1);
+		assertTrue("should be something else than -1", testHeap.contains(gridCell2) != -1);
+		assertTrue("should be -1", testHeap.contains(gridCell3) == -1);
+
+	}
+	
+	
+	@Test
+	public void testRemoveAtIndex() {
+		
+		MinBinaryHeap testHeap = new MinBinaryHeap(100);
+
+		GridCell gridCell1 = new GridCell(0, 0);
+		gridCell1.setMovementCost(6);
+		testHeap.insert(gridCell1);
+
+		GridCell gridCell2 = new GridCell(1, 0);
+		gridCell2.setMovementCost(2);
+		testHeap.insert(gridCell2);
+
+		GridCell gridCell3 = new GridCell(2, 0);
+		gridCell3.setMovementCost(9.64f);
+		testHeap.insert(gridCell3);
+		
+		testHeap.removeAtIndex(testHeap.contains(gridCell1));
+		
+		assertTrue("should be -1", testHeap.contains(gridCell1) == -1);
+		assertEquals("should be 2", 2f, testHeap.findMin().getMovementCost(), 0.0001f);
+		assertEquals("size should be 2 too", 2, testHeap.getHeapSize());
 		
 	}
 	
