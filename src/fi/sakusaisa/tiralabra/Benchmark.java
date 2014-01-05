@@ -62,14 +62,17 @@ public class Benchmark {
 		boolean verbose;
 		GridCell testCell1, testCell2;
 		
-		xSize = 1000;
-		ySize = 1000;
+		xSize = 1250;
+		ySize = 1250;
 		
 		runTests = 500;
 		verbose = false;
 		
 		Benchmark benchmarker = new Benchmark(xSize, ySize);
 
+		System.out.println("Using a " + xSize + "*" + ySize + " grid (=" + (xSize*ySize) + " cells).");
+		System.out.println("Iterating each test " + runTests + " times to determine an average time.\n");
+		
 		// closed set, adding into prebuilt arraylist
 		System.out.println("*** \"closed set\" performance adding cells into a prebuilt structure ***");
 		totalTime = 0;
@@ -88,7 +91,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");
 		
 		// closet set, adding into custom boolean matrix
@@ -109,7 +112,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 
 		// closed set prebuilt, check if contains
@@ -159,7 +162,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");		
 		
 		// open set, adding into prebuilt arraylist
@@ -180,7 +183,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");
 		
 		// open set, adding into custom binary heap
@@ -201,7 +204,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 		
 	}
