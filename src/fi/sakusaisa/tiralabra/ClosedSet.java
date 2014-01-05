@@ -39,6 +39,13 @@ public class ClosedSet {
 	 * @return True if gound, false otherwise
 	 */
 	public boolean contains(GridCell gridCell) {
-		return (dataMatrix[gridCell.getCellX()][gridCell.getCellY()] == true);
+
+		int x = gridCell.getCellX();
+		int y = gridCell.getCellY();
+		
+		if (x > -1 && y > -1 && x < dataMatrix.length && y < dataMatrix[0].length)
+			return (dataMatrix[x][y] == true);
+		else
+			return false;
 	}
 }

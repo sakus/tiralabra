@@ -60,6 +60,7 @@ public class Benchmark {
 		int xSize, ySize, runTests;
 		float averageTime;
 		boolean verbose;
+		GridCell testCell1, testCell2;
 		
 		xSize = 1000;
 		ySize = 1000;
@@ -88,7 +89,7 @@ public class Benchmark {
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
 		averageTime = totalTime / runTests;
-		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
+		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");
 		
 		// closet set, adding into custom boolean matrix
 		System.out.println("*** \"closed set\" performance adding cells into a custom structure ***");
@@ -111,6 +112,56 @@ public class Benchmark {
 		averageTime = totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 
+		// closed set prebuilt, check if contains
+		System.out.println("*** \"closed set\" performance checking if premade structure contains a specific cell ***");
+		totalTime = 0;
+		averageTime = 0;		
+		benchmarker.prebuiltClosedSet.clear();
+		for (int i = 0; i < xSize; i++) {
+			for (int j = 0; j < ySize; j++) {
+				benchmarker.prebuiltClosedSet.add(benchmarker.gridCells[i][j]);
+			}
+		}
+		testCell1 = benchmarker.gridCells[xSize-xSize/10][ySize-ySize/10];
+		testCell2 = new GridCell(-1, -1);
+		for (int k = 0; k < runTests; k++) {
+			if (verbose) System.out.print(" [iteration " + (k+1) +"/" + runTests + "] checking prebuilt arraylist for a GridCell that exists and another that doesn't exist in it ..");
+			startTime = System.currentTimeMillis();
+			boolean found = benchmarker.prebuiltClosedSet.contains(testCell1);
+			boolean found2 = benchmarker.prebuiltClosedSet.contains(testCell2);
+			endTime = System.currentTimeMillis();
+			timeTaken = endTime - startTime;
+			totalTime += timeTaken;
+			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
+		}
+		averageTime = totalTime / runTests;
+		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");		
+		
+		// closed set custom, check if contains
+		System.out.println("*** \"closed set\" performance checking if custom structure contains a specific cell ***");
+		totalTime = 0;
+		averageTime = 0;		
+		benchmarker.customClosedSet.clear();
+		for (int i = 0; i < xSize; i++) {
+			for (int j = 0; j < ySize; j++) {
+				benchmarker.customClosedSet.insert(benchmarker.gridCells[i][j]);
+			}
+		}
+		testCell1 = benchmarker.gridCells[xSize-xSize/10][ySize-ySize/10];
+		testCell2 = new GridCell(-1, -1);
+		for (int k = 0; k < runTests; k++) {
+			if (verbose) System.out.print(" [iteration " + (k+1) +"/" + runTests + "] checking prebuilt arraylist for a GridCell that exists and another that doesn't exist in it ..");
+			startTime = System.currentTimeMillis();
+			boolean found = benchmarker.customClosedSet.contains(testCell1);
+			boolean found2 = benchmarker.customClosedSet.contains(testCell2);
+			endTime = System.currentTimeMillis();
+			timeTaken = endTime - startTime;
+			totalTime += timeTaken;
+			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
+		}
+		averageTime = totalTime / runTests;
+		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");		
+		
 		// open set, adding into prebuilt arraylist
 		System.out.println("*** \"open set\" performance adding cells into a prebuilt structure ***");
 		totalTime = 0;
@@ -130,7 +181,7 @@ public class Benchmark {
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
 		averageTime = totalTime / runTests;
-		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
+		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");
 		
 		// open set, adding into custom binary heap
 		System.out.println("*** \"open set\" performance adding cells into a custom binary heap ***");
