@@ -94,12 +94,19 @@ public class MinBinaryHeap {
 	}
 	
 	/**
-	 * Clears the heap of all data making it empty.
+	 * Clears the heap of all data making it empty. Does this either by
+	 * simply setting the heap size to 0 or by also actually clearing the underlying
+	 * array of all objects ("deep clear") which will naturally take a bit more time.
+	 * 
+	 * @param deep Whether to perform a "deep clear" or not.
 	 */
-	public void clear() {
+	public void clear(boolean deep) {
 		heapSize = 0;
-		for (int i = 0; i < heapArray.length; i++)
-			heapArray[i] = null;
+		if (deep) {
+			for (int i = 0; i < heapArray.length; i++) {
+				heapArray[i] = null;
+			}
+		}
 	}
 	
 	/**

@@ -17,7 +17,7 @@ public class TiraLabra extends JFrame {
     private GridCell[][] gridCells = new GridCell[75][50];
         
     // closed set as a simple boolean matrix
-    private ClosedSet closedSet = new ClosedSet(gridCells.length, gridCells[0].length);
+    private ClosedSet closedSet;
 
     // open set as a custom binary heap implementation
     private MinBinaryHeap openSet;
@@ -114,7 +114,7 @@ public class TiraLabra extends JFrame {
 
         // clear the sets
         closedSet.clear();
-        openSet.clear();
+        openSet.clear(true);
         
         // grab the starting cell first
         GridCell currentCell = gridCells[startCellX][startCellY];
@@ -348,6 +348,7 @@ public class TiraLabra extends JFrame {
         // initialize data
         resetGrid();
         openSet = new MinBinaryHeap(100);
+        closedSet = new ClosedSet(gridCells.length, gridCells[0].length);
                 
         // set the JPanel for the grid renderer
         gridRenderer = new GridRenderer(this);

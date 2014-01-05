@@ -44,7 +44,7 @@ public class MinBinaryHeapTest {
 		testHeap.insert(gridCell);
 
 		assertEquals("size should be 2", 2, testHeap.getHeapSize());
-		testHeap.clear();
+		testHeap.clear(false);
 		assertEquals("size should be back to 0", 0, testHeap.getHeapSize());
 	}
 

@@ -190,7 +190,7 @@ public class Benchmark {
 		for (int k = 0; k < runTests; k++) {
 			if (verbose) System.out.print(" [iteration " + (k+1) +"/" + runTests + "] Adding " + xSize + "*" + ySize + " GridCells into a custom binary heap ..");
 			startTime = System.currentTimeMillis();
-			benchmarker.customOpenSet.clear();
+			benchmarker.customOpenSet.clear(false);
 			for (int i = 0; i < xSize; i++) {
 				for (int j = 0; j < ySize; j++) {
 					benchmarker.customOpenSet.insert(benchmarker.gridCells[i][j]);		
