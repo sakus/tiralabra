@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 
 /**
  * A Swing mouse listener for the visual grid.
- * Calls a handler function with information about which cell was clicked on.
  * 
  * @author Saku Säisä
  */

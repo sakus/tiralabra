@@ -18,11 +18,9 @@ public class TiraLabra extends JFrame {
         
     // closed set as a simple boolean matrix
     private boolean[][] closedSet = new boolean[gridCells.length][gridCells[0].length];
-    //private ArrayList<GridCell> closedSet = new ArrayList<GridCell>();
 
     // open set as a custom binary heap implementation
     private MinBinaryHeap openSet;
-    //private PriorityQueue<GridCell> openSet;
     
     // random variables..
     protected GridRenderer gridRenderer;
