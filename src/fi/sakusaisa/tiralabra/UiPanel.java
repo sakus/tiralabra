@@ -16,40 +16,8 @@ import javax.swing.JPanel;
 public class UiPanel extends JPanel implements ActionListener {
     
     TiraLabra tiraLabra;
-
-    /**
-     * wrapper method for TiraLabra's findPath()
-     */
-    public void findPath() {
-    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
-    		this.tiraLabra.findPath();
-    }
     
-    /**
-     * wrapper method for TiraLabra's repaintGrid()
-     */
-    public void repaintGrid() {
-    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
-    		this.tiraLabra.gridRenderer.repaint();
-    }
-
-    /**
-     * wrapper method for TiraLabra's resetPath()
-     */    
-    public void resetPath() {
-    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
-    		this.tiraLabra.resetPath();
-    }
-
-    /**
-     * wrapper method for TiraLabra's resetGrid()
-     */
-    public void resetGrid() {
-    	if (!this.tiraLabra.gridRenderer.gridMouseListener.userMovingStart && !this.tiraLabra.gridRenderer.gridMouseListener.userMovingGoal)
-    		this.tiraLabra.resetGrid();
-    }
-    
-    public UiPanel(TiraLabra tiraLabra) {
+    public UiPanel(final TiraLabra tiraLabra) {
     
         this.tiraLabra = tiraLabra;
         
@@ -64,8 +32,8 @@ public class UiPanel extends JPanel implements ActionListener {
         findPathButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                findPath();
-                repaintGrid();
+                tiraLabra.findPath();
+                tiraLabra.gridRenderer.repaint();
             }
         }); 
         buttonPanel.add(findPathButton);
@@ -78,8 +46,8 @@ public class UiPanel extends JPanel implements ActionListener {
         resetPathButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                resetPath();
-                repaintGrid();
+            	tiraLabra.resetPath();
+            	tiraLabra.gridRenderer.repaint();
             }
         }); 
         buttonPanel.add(resetPathButton);        
@@ -88,8 +56,8 @@ public class UiPanel extends JPanel implements ActionListener {
         resetGridButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                resetGrid();
-                repaintGrid();
+                tiraLabra.resetGrid();
+                tiraLabra.gridRenderer.repaint();
             }
         }); 
         buttonPanel.add(resetGridButton);        
@@ -147,7 +115,7 @@ public class UiPanel extends JPanel implements ActionListener {
         if (tiraLabra.pathFindingRan) {
             tiraLabra.resetPath();
             tiraLabra.findPath();
-            repaintGrid();
+            tiraLabra.gridRenderer.repaint();
         }
         
     }
