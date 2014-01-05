@@ -3,6 +3,7 @@ package fi.sakusaisa.tiralabra;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Random;
 
 /**
  * A small and simple standalone performance benchmarker comparing premade and custom made data structures.
@@ -20,17 +21,23 @@ public class Benchmark {
     private PriorityQueue<GridCell> prebuiltOpenSet;
 
     /**
-     * Comparator.
+     * Constructor.
+     * 
      * @param x The grid size in x axis
      * @param y The gird size in y axis
      */
 	public Benchmark(int x, int y) {
 
 		gridCells = new GridCell[x][y];
+		Random random = new Random();
 		
+		/* Fill the grid with GridCells and randomize their movementCosts so
+		 * that the openSet implementations have something to do (as in sort them)
+		 */
 		for (int i = 0; i < x; i++) {
 			for (int j = 0; j < y; j++) {
 				gridCells[i][j] = new GridCell(i, j);
+				gridCells[i][j].setMovementCost(random.nextFloat() * 3f + 0.0000001f);
 			}
 		}
 			
@@ -137,7 +144,7 @@ public class Benchmark {
 			totalTime += timeTaken;
 			if (verbose) System.out.println(".. and it took " + timeTaken + "ms");
 		}
-		averageTime = totalTime / runTests;
+		averageTime = (float)totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.");		
 		
 		// closed set custom, check if contains
