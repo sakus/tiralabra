@@ -17,7 +17,7 @@ public class TiraLabra extends JFrame {
     private GridCell[][] gridCells = new GridCell[75][50];
         
     // closed set as a simple boolean matrix
-    private boolean[][] closedSet = new boolean[gridCells.length][gridCells[0].length];
+    private ClosedSet closedSet = new ClosedSet(gridCells.length, gridCells[0].length);
 
     // open set as a custom binary heap implementation
     private MinBinaryHeap openSet;
@@ -113,11 +113,7 @@ public class TiraLabra extends JFrame {
         pathFindingRan = true;
 
         // clear the sets
-        for (int i = 0; i < closedSet.length; i++) {
-        	for (int j = 0; j < closedSet[0].length; j++) {
-        		closedSet[i][j] = false;
-        	}
-        }
+        closedSet.clear();
         openSet.clear();
         
         // grab the starting cell first
@@ -130,9 +126,7 @@ public class TiraLabra extends JFrame {
         	
             // take the cell with the smallest movementCost and move it over to closedSet
         	currentCell = openSet.delMin();
-        	
-            //closedSet.add(currentCell);
-            closedSet[currentCell.getCellX()][currentCell.getCellY()] = true;
+            closedSet.insert(currentCell);
             
             // check adjacent cells
             findPathProcessAdjacentCells(currentCell);
@@ -233,7 +227,7 @@ public class TiraLabra extends JFrame {
         // grab a reference to the considered cell
         GridCell processCell = gridCells[processX][processY];
 
-        if (processCell.getCellData() != 0 && closedSet[processCell.getCellX()][processCell.getCellY()] == false) {
+        if (processCell.getCellData() != 0 && !closedSet.contains(processCell)) {
         	
             // if the cell isn't in the open set..
         	foundAtIndex = openSet.contains(processCell);
@@ -354,20 +348,7 @@ public class TiraLabra extends JFrame {
         // initialize data
         resetGrid();
         openSet = new MinBinaryHeap(100);
-        
-        /*
-		openSet = new PriorityQueue<GridCell>(100, new Comparator<GridCell>() {
- 			@Override
- 			public int compare(GridCell gc1, GridCell gc2) {
- 				float cost1 = gc1.getMovementCost();
- 				float cost2 = gc2.getMovementCost();
- 				if (cost1 < cost2) return -1;
- 				else if (cost1 > cost2) return 1;
- 				else return 0;
- 			}
-		});
-        */
-        
+                
         // set the JPanel for the grid renderer
         gridRenderer = new GridRenderer(this);
         getContentPane().add(gridRenderer, java.awt.BorderLayout.WEST);

@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/fi/sakusaisa/tiralabra/Benchmark.java=UTF-8
+encoding//src/fi/sakusaisa/tiralabra/ClosedSet.java=UTF-8
 encoding//src/fi/sakusaisa/tiralabra/GridCell.java=UTF-8
 encoding//src/fi/sakusaisa/tiralabra/GridMouseListener.java=UTF-8
 encoding//src/fi/sakusaisa/tiralabra/GridRenderer.java=UTF-8

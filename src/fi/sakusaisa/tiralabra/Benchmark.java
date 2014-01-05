@@ -13,7 +13,8 @@ public class Benchmark {
 
 	private GridCell[][] gridCells;
 	
-    private boolean[][] customClosedSet;
+    //private boolean[][] customClosedSet;
+	private ClosedSet customClosedSet;
     private ArrayList<GridCell> prebuiltClosedSet;
 
     private MinBinaryHeap customOpenSet;
@@ -34,7 +35,7 @@ public class Benchmark {
 			}
 		}
 			
-		customClosedSet = new boolean[x][y];
+		customClosedSet = new ClosedSet(x, y);
 		prebuiltClosedSet = new ArrayList<GridCell>();
 		
 		customOpenSet = new MinBinaryHeap(100);
@@ -97,14 +98,10 @@ public class Benchmark {
 		for (int k = 0; k < runTests; k++) {
 			if (verbose) System.out.print(" [iteration " + (k+1) +"/" + runTests + "] Adding " + xSize + "*" + ySize + " GridCells into a custom boolean matrix ..");
 			startTime = System.currentTimeMillis();
+			benchmarker.customClosedSet.clear();
 			for (int i = 0; i < xSize; i++) {
 				for (int j = 0; j < ySize; j++) {
-					benchmarker.customClosedSet[i][j] = false;
-				}
-			}
-			for (int i = 0; i < xSize; i++) {
-				for (int j = 0; j < ySize; j++) {
-					benchmarker.customClosedSet[i][j] = true;
+					benchmarker.customClosedSet.insert(benchmarker.gridCells[i][j]);
 				}
 			}
 			endTime = System.currentTimeMillis();
