@@ -13,7 +13,6 @@ public class Benchmark {
 
 	private GridCell[][] gridCells;
 	
-    //private boolean[][] customClosedSet;
 	private ClosedSet customClosedSet;
     private ArrayList<GridCell> prebuiltClosedSet;
 
@@ -70,7 +69,7 @@ public class Benchmark {
 		
 		Benchmark benchmarker = new Benchmark(xSize, ySize);
 
-		// closed set, prebuilt arraylist
+		// closed set, adding into prebuilt arraylist
 		System.out.println("*** \"closed set\" performance adding cells into a prebuilt structure ***");
 		totalTime = 0;
 		averageTime = 0;
@@ -91,7 +90,7 @@ public class Benchmark {
 		averageTime = totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 		
-		// closet set, custom boolean matrix
+		// closet set, adding into custom boolean matrix
 		System.out.println("*** \"closed set\" performance adding cells into a custom structure ***");
 		totalTime = 0;
 		averageTime = 0;
@@ -112,7 +111,7 @@ public class Benchmark {
 		averageTime = totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 
-		// open set, prebuilt arraylist
+		// open set, adding into prebuilt arraylist
 		System.out.println("*** \"open set\" performance adding cells into a prebuilt structure ***");
 		totalTime = 0;
 		averageTime = 0;
@@ -133,7 +132,7 @@ public class Benchmark {
 		averageTime = totalTime / runTests;
 		System.out.println("Average time taken over " + runTests + " iterations was " + averageTime + "ms.\n");
 		
-		// open set, custom arraylist
+		// open set, adding into custom binary heap
 		System.out.println("*** \"open set\" performance adding cells into a custom binary heap ***");
 		totalTime = 0;
 		averageTime = 0;
