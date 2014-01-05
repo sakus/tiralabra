@@ -133,7 +133,7 @@ public class MinBinaryHeap {
 		heapSize++;
 		
 		// traverse the heap "upwards" until the correct position is found
-		int i = heapSize;		
+		int i = heapSize;
 		while (i > 1 && heapArray[getParent(i)].getMovementCost() > gridCell.getMovementCost()) {
 				heapArray[i] = heapArray[getParent(i)];
 				i = getParent(i);
