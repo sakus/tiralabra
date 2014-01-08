@@ -12,6 +12,13 @@ public class ClosedSet {
 
 	private boolean[][] dataMatrix;
 	
+	/**
+	 * Constructor that creates a new 2d-array to hold the data.
+	 * The size should match the actual grid being used, as an index in this array matches
+	 * the same index in the actual data grid 1:1.
+	 * @param x The "x size" of the grid.
+	 * @param y The "y size" of the grid.
+	 */
 	public ClosedSet(int x, int y) {
 		dataMatrix = new boolean[x][y];
 	}
@@ -28,7 +35,9 @@ public class ClosedSet {
 	}
 	
 	/**
-	 * Inserts a GridCell into the data structure.
+	 * Inserts a GridCell into the data structure by marking
+	 * the index of the said GridCell as true.
+	 * 
 	 * @param gridCell The GridCell to add.
 	 */
 	public void insert(GridCell gridCell) {
@@ -37,6 +46,7 @@ public class ClosedSet {
 	
 	/**
 	 * Checks whether or not a GridCell exists in the data structure.
+	 * 
 	 * @param gridCell the GridCell to check
 	 * @return True if gound, false otherwise
 	 */

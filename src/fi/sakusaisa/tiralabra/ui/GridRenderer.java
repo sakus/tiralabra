@@ -66,19 +66,39 @@ public class GridRenderer extends JPanel {
             for (int j = 0; j < cellsY; j++) {
                 
                 // set the color based on cell data
-                if (tiraLabra.getGridCells()[i][j].getCellData() == 0) // obstacle
-                    g2d.setColor(Color.lightGray);
-                else if (tiraLabra.getGridCells()[i][j].getCellData() == 1) // clear
-                    g2d.setColor(Color.black);
-                else if (tiraLabra.getGridCells()[i][j].getCellData() == 2) // path
-                    g2d.setColor(Color.blue);
-                else if (tiraLabra.getGridCells()[i][j].getCellData() == 3) // considered path
-                    g2d.setColor(new Color(0.4f, 0.4f, 0.6f, 1f));
-                else if (tiraLabra.getGridCells()[i][j].getCellData() == 4) // starting cell
-                    g2d.setColor(Color.red);
-                else if (tiraLabra.getGridCells()[i][j].getCellData() == 5) // goal cell
-                    g2d.setColor(Color.pink);
-                
+            	switch (tiraLabra.getGridCells()[i][j].getCellData()) {
+
+            	// obstacle
+            	case 0: 
+            		g2d.setColor(Color.lightGray);
+            		break;
+            	
+            	// clear	
+            	case 1:
+            		g2d.setColor(Color.black);
+            		break;
+            	
+            	// path
+            	case 2:
+            		g2d.setColor(Color.blue);
+            		break;
+            		
+            	// considered path	
+            	case 3:
+            		g2d.setColor(new Color(0.4f, 0.4f, 0.6f, 1f));
+            		break;
+            		
+            	// start cell	
+            	case 4:
+            		g2d.setColor(Color.red);
+            		break;
+            		
+            	// goal cell
+            	case 5:
+            		g2d.setColor(Color.green);
+            		break;
+            	}
+            	                
                 // draw the cells
                 g2d.fillRect(10 + i * cellSize + 1, 10 + j * cellSize + 1, cellSize-1, cellSize-1);
                 

@@ -1,1 +1,4 @@
-fi.sakusaisa.tiralabra
+fi.sakusaisa.tiralabra.core
+fi.sakusaisa.tiralabra.datastructures
+fi.sakusaisa.tiralabra.tests
+fi.sakusaisa.tiralabra.ui

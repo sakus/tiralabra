@@ -19,12 +19,20 @@ public class GridMouseListener extends MouseAdapter {
     protected boolean userMovingStart = false;
     protected boolean userMovingGoal = false;
 
-    
+    /**
+     * Constructor.
+     * 
+     * @param gridRenderer A reference to the instance of GridRenderer being used.
+     * @param tiraLabra An instance of the main program.
+     */
     public GridMouseListener(GridRenderer gridRenderer, TiraLabra tiraLabra) {
         this.gridRenderer = gridRenderer;
         this.tiraLabra = tiraLabra;
     }
     
+    /**
+     * Handles a mouse click on a specific cell on the visual grid.
+     */
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
 
@@ -38,6 +46,9 @@ public class GridMouseListener extends MouseAdapter {
     public void mouseReleased(MouseEvent mouseEvent) {   
     }
     
+    /**
+     * Handles mouse being moved while button down on the visual grid.
+     */
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         
@@ -47,6 +58,11 @@ public class GridMouseListener extends MouseAdapter {
         
     }
     
+    /**
+     * Makes sure the mouse click was actually on the grid.
+     * 
+     * @return True, if an existing cell was clicked.
+     */
     public boolean mouseCellOk() {
         return (mouseCellX >= 0 && mouseCellY >= 0 && mouseCellX <= gridRenderer.getCellsX() - 1 && mouseCellY <= gridRenderer.getCellsY() - 1);
     }

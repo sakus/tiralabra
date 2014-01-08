@@ -28,9 +28,9 @@ public class UiPanel extends JPanel implements ActionListener {
 
         // buttons have their own jpanel(s)
         JPanel buttonMainPanel = new JPanel(new GridLayout(5,1));
-        
         JPanel buttonPanel = new JPanel(new GridLayout(1,1));
         
+        // ui button for "find path"
         JButton findPathButton = new JButton("Find Path");
         findPathButton.addActionListener(new ActionListener() {
             @Override
@@ -40,11 +40,10 @@ public class UiPanel extends JPanel implements ActionListener {
             }
         }); 
         buttonPanel.add(findPathButton);
-
         buttonMainPanel.add(buttonPanel);
         
+        // ui button for "reset path"
         buttonPanel = new JPanel(new GridLayout(1,2));
-
         JButton resetPathButton = new JButton("Reset Path");
         resetPathButton.addActionListener(new ActionListener() {
             @Override
@@ -53,8 +52,9 @@ public class UiPanel extends JPanel implements ActionListener {
             	tiraLabra.getGridRenderer().repaint();
             }
         }); 
-        buttonPanel.add(resetPathButton);        
-
+        buttonPanel.add(resetPathButton);
+        
+        // ui button for "reset grid"
         JButton resetGridButton = new JButton("Reset Grid");
         resetGridButton.addActionListener(new ActionListener() {
             @Override
@@ -66,6 +66,7 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonPanel.add(resetGridButton);        
         buttonMainPanel.add(buttonPanel);
         
+        // selection box for diagonal movement on/off
         buttonPanel = new JPanel(new GridLayout(1,1));
         JCheckBox checkboxDiagonal = new JCheckBox("Diagonal Movement", false);
         checkboxDiagonal.setName("Diagonal Movement");
@@ -73,6 +74,7 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonPanel.add(checkboxDiagonal);
         buttonMainPanel.add(buttonPanel);   
 
+        // selection box for a* on/off
         buttonPanel = new JPanel(new GridLayout(1,1));
         JCheckBox checkboxAStar = new JCheckBox("Use A* (otherwise Dijkstra)", false);
         checkboxAStar.setName("Use A*");
@@ -80,6 +82,7 @@ public class UiPanel extends JPanel implements ActionListener {
         buttonPanel.add(checkboxAStar);
         buttonMainPanel.add(buttonPanel);   
         
+        // selection box for a* tiebreaker on/off
         buttonPanel = new JPanel(new GridLayout(1,1));
         JCheckBox checkboxTiebreaker = new JCheckBox("Heuristics Tie-breaker (A*)", false);
         checkboxTiebreaker.setName("Heuristics Tie-breaker");
