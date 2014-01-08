@@ -310,9 +310,11 @@ public class TiraLabra extends JFrame {
     	int dy = Math.abs(processCell.getCellY() - getGoalCellY());
     	
     	float tieBreaker;
+    	
     	if (isUseTieBreaker()) {
     		tieBreaker = 1.001f;
     	}
+    	
     	else {
     		tieBreaker = 1f;
     	}
@@ -323,16 +325,8 @@ public class TiraLabra extends JFrame {
     	
     	// Chebyshev distance when diagonal move enabled
     	else {
-    		int cost = 1;
-    		
-    		/*
-    		 * if it's a diagonal cell, make movement to it cost twice that of a non-diagonal cell,
-    		 * so that diagonal move is allowed but the cost of going one step NE will be the same as going
-    		 * first N and then E to end up in the same cell
-    		 */
-    		if (processCell.getCellX() != currentCell.getCellX() && processCell.getCellY() != currentCell.getCellY())
-    			cost = 2;
-    		return (cost * Math.max(dx, dy)) * tieBreaker;
+    		//return (1 * Math.max(dx, dy)) * tieBreaker;
+    		return (float) ((1 * (dx + dy) + (Math.sqrt(2)*1 - 2*1) * Math.min(dx, dy)) * tieBreaker);
     	}
     		    
     }
