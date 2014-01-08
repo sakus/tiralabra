@@ -15,7 +15,7 @@ import fi.sakusaisa.tiralabra.core.TiraLabra;
  * 
  */
 @SuppressWarnings("serial")
-class GridRenderer extends JPanel {
+public class GridRenderer extends JPanel {
 
     // a reference to the used TiraLabra instance
     private TiraLabra tiraLabra;
@@ -42,9 +42,9 @@ class GridRenderer extends JPanel {
         this.addMouseListener(gridMouseListener);
         this.addMouseMotionListener(gridMouseListener);
         
-        setMaximumSize(new java.awt.Dimension(tiraLabra.wantedWindowWidth - 50, tiraLabra.wantedWindowHeight));
-        setMinimumSize(new java.awt.Dimension(tiraLabra.wantedWindowWidth - 50, tiraLabra.wantedWindowHeight));
-        setPreferredSize(new java.awt.Dimension(tiraLabra.wantedWindowWidth - 50, tiraLabra.wantedWindowHeight));
+        setMaximumSize(new java.awt.Dimension(tiraLabra.getWantedWindowWidth() - 50, tiraLabra.getWantedWindowHeight()));
+        setMinimumSize(new java.awt.Dimension(tiraLabra.getWantedWindowWidth() - 50, tiraLabra.getWantedWindowHeight()));
+        setPreferredSize(new java.awt.Dimension(tiraLabra.getWantedWindowWidth() - 50, tiraLabra.getWantedWindowHeight()));
         setBackground(Color.black);
 
         

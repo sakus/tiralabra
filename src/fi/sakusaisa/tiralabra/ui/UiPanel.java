@@ -24,7 +24,7 @@ public class UiPanel extends JPanel implements ActionListener {
     
         this.tiraLabra = tiraLabra;
         
-        setMaximumSize(new java.awt.Dimension(50, tiraLabra.wantedWindowHeight));
+        setMaximumSize(new java.awt.Dimension(50, tiraLabra.getWantedWindowHeight()));
 
         // buttons have their own jpanel(s)
         JPanel buttonMainPanel = new JPanel(new GridLayout(5,1));
@@ -36,7 +36,7 @@ public class UiPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent event) {
                 tiraLabra.findPath();
-                tiraLabra.gridRenderer.repaint();
+                tiraLabra.getGridRenderer().repaint();
             }
         }); 
         buttonPanel.add(findPathButton);
@@ -50,7 +50,7 @@ public class UiPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent event) {
             	tiraLabra.resetPath();
-            	tiraLabra.gridRenderer.repaint();
+            	tiraLabra.getGridRenderer().repaint();
             }
         }); 
         buttonPanel.add(resetPathButton);        
@@ -60,7 +60,7 @@ public class UiPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent event) {
                 tiraLabra.resetGrid();
-                tiraLabra.gridRenderer.repaint();
+                tiraLabra.getGridRenderer().repaint();
             }
         }); 
         buttonPanel.add(resetGridButton);        
@@ -99,26 +99,26 @@ public class UiPanel extends JPanel implements ActionListener {
 
         if (state) {
             if (source.getName().equals("Diagonal Movement"))
-                tiraLabra.diagonalMoveAllowed = true;
+                tiraLabra.setDiagonalMoveAllowed(true);
             if (source.getName().equals("Heuristics Tie-breaker"))
-                tiraLabra.useTieBreaker = true;
+                tiraLabra.setUseTieBreaker(true);
             if (source.getName().equals("Use A*"))
-                tiraLabra.useAStar = true;
+                tiraLabra.setUseAStar(true);
         }
         
         else {
             if (source.getName().equals("Diagonal Movement"))
-                tiraLabra.diagonalMoveAllowed = false;
+                tiraLabra.setDiagonalMoveAllowed(false);
             if (source.getName().equals("Heuristics Tie-breaker"))
-                tiraLabra.useTieBreaker = false;
+                tiraLabra.setUseTieBreaker(false);
             if (source.getName().equals("Use A*"))
-                tiraLabra.useAStar = false;            
+                tiraLabra.setUseAStar(false);            
         }
 
-        if (tiraLabra.pathFindingRan) {
+        if (tiraLabra.isPathFindingRan()) {
             tiraLabra.resetPath();
             tiraLabra.findPath();
-            tiraLabra.gridRenderer.repaint();
+            tiraLabra.getGridRenderer().repaint();
         }
         
     }

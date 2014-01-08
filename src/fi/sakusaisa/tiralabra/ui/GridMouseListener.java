@@ -82,16 +82,16 @@ public class GridMouseListener extends MouseAdapter {
             else if (userMovingStart && this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
             	userMovingStart = false;
             	this.tiraLabra.getGridCells()[x][y].setCellData(4);
-            	this.tiraLabra.startCellX = x;
-            	this.tiraLabra.startCellY = y;
+            	this.tiraLabra.setStartCellX(x);
+            	this.tiraLabra.setStartCellY(y);
             }
 
             // put down the start point
             else if (userMovingGoal && this.tiraLabra.getGridCells()[x][y].getCellData() == 1) {
             	userMovingGoal = false;
             	this.tiraLabra.getGridCells()[x][y].setCellData(5);
-            	this.tiraLabra.goalCellX = x;
-            	this.tiraLabra.goalCellY = y;
+            	this.tiraLabra.setGoalCellX(x);
+            	this.tiraLabra.setGoalCellY(y);
             }
 
             // just switch obstacle <-> clear

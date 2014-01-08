@@ -28,15 +28,23 @@ public class TiraLabra extends JFrame {
     private MinBinaryHeap openSet;
     
     // random variables..
-    protected GridRenderer gridRenderer;
-    protected int wantedWindowWidth, wantedWindowHeight;
-    protected int startCellX, startCellY, goalCellX, goalCellY;    
+    private GridRenderer gridRenderer;
+    private int wantedWindowWidth;
+
+	private int wantedWindowHeight;
+    private int startCellX;
+
+	private int startCellY;
+
+	private int goalCellX;
+
+	private int goalCellY;    
     private int cellSize = 10;
-    protected boolean pathFindingRan = false;  
-    protected boolean diagonalMoveAllowed = false;
-    protected boolean useTieBreaker = false;
+    private boolean pathFindingRan = false;  
+    private boolean diagonalMoveAllowed = false;
+    private boolean useTieBreaker = false;
     protected String statusMessage1, statusMessage2, statusMessage3;
-    protected boolean useAStar = false;
+    private boolean useAStar = false;
     protected int nodesChecked = 0;
 
     /**
@@ -61,9 +69,9 @@ public class TiraLabra extends JFrame {
         }
         
         // throw in default start and goal cells
-        startCellX = 1; startCellY = 1; goalCellX = gridCells.length - 2; goalCellY = gridCells[0].length - 2;
-        gridCells[startCellX][startCellY].setCellData(4);
-        gridCells[goalCellX][goalCellY].setCellData(5);
+        setStartCellX(1); setStartCellY(1); setGoalCellX(gridCells.length - 2); setGoalCellY(gridCells[0].length - 2);
+        gridCells[getStartCellX()][getStartCellY()].setCellData(4);
+        gridCells[getGoalCellX()][getGoalCellY()].setCellData(5);
         
         resetStats();
         
@@ -96,7 +104,7 @@ public class TiraLabra extends JFrame {
     }
     
     private void resetStats() {
-        pathFindingRan = false;
+        setPathFindingRan(false);
         statusMessage1 = null;
         statusMessage2 = null;
         statusMessage3 = null;
@@ -112,22 +120,22 @@ public class TiraLabra extends JFrame {
         long startTime = System.currentTimeMillis();
 
         // reset the path if needed
-        if (pathFindingRan)
+        if (isPathFindingRan())
             resetPath();
         
-        pathFindingRan = true;
+        setPathFindingRan(true);
 
         // clear the sets
         closedSet.clear();
         openSet.clear(true);
         
         // grab the starting cell first
-        GridCell currentCell = gridCells[startCellX][startCellY];
+        GridCell currentCell = gridCells[getStartCellX()][getStartCellY()];
         currentCell.setDistanceFromStart(0);
         openSet.insert(currentCell);
  
         // loop until we arrive at the target or the open set becomes empty
-        while (currentCell != gridCells[goalCellX][goalCellY] && !openSet.isEmpty()) {
+        while (currentCell != gridCells[getGoalCellX()][getGoalCellY()] && !openSet.isEmpty()) {
         	
             // take the cell with the smallest movementCost and move it over to closedSet
         	currentCell = openSet.delMin();
@@ -139,7 +147,7 @@ public class TiraLabra extends JFrame {
         }
                 
         // visualize the path following hte arrivedFrom flags starting from the goal 
-        if (currentCell == gridCells[goalCellX][goalCellY]) {
+        if (currentCell == gridCells[getGoalCellX()][getGoalCellY()]) {
         	visualizePath(currentCell);
         }
 
@@ -163,7 +171,7 @@ public class TiraLabra extends JFrame {
     	
         int pathLength = 0;
         
-        while (currentCell.getArrivedFrom() != gridCells[startCellX][startCellY]) {
+        while (currentCell.getArrivedFrom() != gridCells[getStartCellX()][getStartCellY()]) {
             currentCell.getArrivedFrom().setCellData(2);
             currentCell = currentCell.getArrivedFrom();
             pathLength++;
@@ -190,7 +198,7 @@ public class TiraLabra extends JFrame {
             	 * that either have a different x or a different y than the processed cell..
             	 * this results in 8 cells being processed
             	 */
-                if (diagonalMoveAllowed) {
+                if (isDiagonalMoveAllowed()) {
                     if (x != currentX || y != currentY) {
                         findPathProcessCell(x, y, currentCell);
                     }
@@ -200,7 +208,7 @@ public class TiraLabra extends JFrame {
                  * X or Y (but not both) is the same as the processed cell.. this checks
                  * 4 of the adjacent cells: directly above, below, left and right
                  */
-                else if (!diagonalMoveAllowed) {
+                else if (!isDiagonalMoveAllowed()) {
                     if (x == currentX || y == currentY && !(x == currentX && y == currentY)) {
                         findPathProcessCell(x, y, currentCell);
                     }
@@ -249,7 +257,7 @@ public class TiraLabra extends JFrame {
                 processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
                 // heuristics if A*
-                if (useAStar)
+                if (isUseAStar())
                 	processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
                 else
                 	processCell.setDistanceToGoal(0);
@@ -274,7 +282,7 @@ public class TiraLabra extends JFrame {
                 	processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
                 	// heuristics if A*
-                	if (useAStar)
+                	if (isUseAStar())
                 		processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
                 	else
                 		processCell.setDistanceToGoal(0);
@@ -298,11 +306,11 @@ public class TiraLabra extends JFrame {
      */
     public float aStarHeuristic(GridCell processCell, GridCell currentCell) {    	
 
-    	int dx = Math.abs(processCell.getCellX() - goalCellX);
-    	int dy = Math.abs(processCell.getCellY() - goalCellY);
+    	int dx = Math.abs(processCell.getCellX() - getGoalCellX());
+    	int dy = Math.abs(processCell.getCellY() - getGoalCellY());
     	
     	float tieBreaker;
-    	if (useTieBreaker) {
+    	if (isUseTieBreaker()) {
     		tieBreaker = 1.001f;
     	}
     	else {
@@ -310,7 +318,7 @@ public class TiraLabra extends JFrame {
     	}
     		
     	// manhattan distance when diagonal move disabled
-    	if (!diagonalMoveAllowed)
+    	if (!isDiagonalMoveAllowed())
     		return (1 * (dx + dy)) * tieBreaker;
     	
     	// Chebyshev distance when diagonal move enabled
@@ -340,12 +348,12 @@ public class TiraLabra extends JFrame {
     public TiraLabra() {
         
         // define dimensions for the program window taking into account some padding + window decorations
-        wantedWindowWidth = gridCells.length * cellSize + 70 + getInsets().left + getInsets().right;
-        wantedWindowHeight = gridCells[0].length * cellSize + 20 + getInsets().top + getInsets().bottom;
+        setWantedWindowWidth(gridCells.length * cellSize + 70 + getInsets().left + getInsets().right);
+        setWantedWindowHeight(gridCells[0].length * cellSize + 20 + getInsets().top + getInsets().bottom);
         
         // program window properties
         setTitle("TiRaLabra");
-        setSize(wantedWindowWidth, wantedWindowHeight);
+        setSize(getWantedWindowWidth(), getWantedWindowHeight());
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setResizable(false);
@@ -356,8 +364,8 @@ public class TiraLabra extends JFrame {
         closedSet = new ClosedSet(gridCells.length, gridCells[0].length);
                 
         // set the JPanel for the grid renderer
-        gridRenderer = new GridRenderer(this);
-        getContentPane().add(gridRenderer, java.awt.BorderLayout.WEST);
+        setGridRenderer(new GridRenderer(this));
+        getContentPane().add(getGridRenderer(), java.awt.BorderLayout.WEST);
         
         // build the UI into another JPanel
         JPanel uiPanel = new UiPanel(this);
@@ -382,5 +390,93 @@ public class TiraLabra extends JFrame {
             }
         });
     }
+
+	public int getWantedWindowWidth() {
+		return wantedWindowWidth;
+	}
+
+	public void setWantedWindowWidth(int wantedWindowWidth) {
+		this.wantedWindowWidth = wantedWindowWidth;
+	}
+
+	public int getWantedWindowHeight() {
+		return wantedWindowHeight;
+	}
+
+	public void setWantedWindowHeight(int wantedWindowHeight) {
+		this.wantedWindowHeight = wantedWindowHeight;
+	}
+
+	public GridRenderer getGridRenderer() {
+		return gridRenderer;
+	}
+
+	public void setGridRenderer(GridRenderer gridRenderer) {
+		this.gridRenderer = gridRenderer;
+	}
+
+	public boolean isDiagonalMoveAllowed() {
+		return diagonalMoveAllowed;
+	}
+
+	public void setDiagonalMoveAllowed(boolean diagonalMoveAllowed) {
+		this.diagonalMoveAllowed = diagonalMoveAllowed;
+	}
+
+	public boolean isUseTieBreaker() {
+		return useTieBreaker;
+	}
+
+	public void setUseTieBreaker(boolean useTieBreaker) {
+		this.useTieBreaker = useTieBreaker;
+	}
+
+	public boolean isUseAStar() {
+		return useAStar;
+	}
+
+	public void setUseAStar(boolean useAStar) {
+		this.useAStar = useAStar;
+	}
+
+	public boolean isPathFindingRan() {
+		return pathFindingRan;
+	}
+
+	public void setPathFindingRan(boolean pathFindingRan) {
+		this.pathFindingRan = pathFindingRan;
+	}
+
+	public int getStartCellX() {
+		return startCellX;
+	}
+
+	public void setStartCellX(int startCellX) {
+		this.startCellX = startCellX;
+	}
+
+	public int getStartCellY() {
+		return startCellY;
+	}
+
+	public void setStartCellY(int startCellY) {
+		this.startCellY = startCellY;
+	}
+
+	public int getGoalCellX() {
+		return goalCellX;
+	}
+
+	public void setGoalCellX(int goalCellX) {
+		this.goalCellX = goalCellX;
+	}
+
+	public int getGoalCellY() {
+		return goalCellY;
+	}
+
+	public void setGoalCellY(int goalCellY) {
+		this.goalCellY = goalCellY;
+	}
     
 }
