@@ -1,8 +1,13 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.core;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+
+import fi.sakusaisa.tiralabra.datastructures.ClosedSet;
+import fi.sakusaisa.tiralabra.datastructures.MinBinaryHeap;
+import fi.sakusaisa.tiralabra.ui.GridRenderer;
+import fi.sakusaisa.tiralabra.ui.UiPanel;
 
 /**
  * The main TiraLabra class.

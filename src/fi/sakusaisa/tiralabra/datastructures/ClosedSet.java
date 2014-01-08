@@ -1,4 +1,6 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.datastructures;
+
+import fi.sakusaisa.tiralabra.core.GridCell;
 
 /**
  * A simple class to represent the closed set in a*

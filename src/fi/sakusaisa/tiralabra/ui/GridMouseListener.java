@@ -1,7 +1,9 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.ui;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import fi.sakusaisa.tiralabra.core.TiraLabra;
 
 /**
  * A Swing mouse listener for the visual grid.

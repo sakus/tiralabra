@@ -1,8 +1,11 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import fi.sakusaisa.tiralabra.core.GridCell;
+import fi.sakusaisa.tiralabra.datastructures.MinBinaryHeap;
 
 public class MinBinaryHeapTest {
 

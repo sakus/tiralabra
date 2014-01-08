@@ -1,9 +1,13 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.tests;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Random;
+
+import fi.sakusaisa.tiralabra.core.GridCell;
+import fi.sakusaisa.tiralabra.datastructures.ClosedSet;
+import fi.sakusaisa.tiralabra.datastructures.MinBinaryHeap;
 
 /**
  * A small and simple standalone performance benchmarker comparing premade and custom made data structures.
@@ -72,7 +76,7 @@ public class Benchmark {
 		xSize = 1250;
 		ySize = 1250;
 		
-		runTests = 500;
+		runTests = 200;
 		verbose = false;
 		
 		Benchmark benchmarker = new Benchmark(xSize, ySize);

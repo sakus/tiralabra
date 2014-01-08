@@ -1,11 +1,14 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.ui;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
+
+import fi.sakusaisa.tiralabra.core.TiraLabra;
 
 /**
  * Builds the UI JPanel.

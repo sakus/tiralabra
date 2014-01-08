@@ -1,4 +1,4 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.core;
 
 /**
  * Class representing a single cell / node in the grid

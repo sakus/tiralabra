@@ -1,9 +1,12 @@
-package fi.sakusaisa.tiralabra;
+package fi.sakusaisa.tiralabra.ui;
 
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import javax.swing.JPanel;
+
+import fi.sakusaisa.tiralabra.core.TiraLabra;
 
 /**
  * This class handles the rendering of the grid and everything related to it.
