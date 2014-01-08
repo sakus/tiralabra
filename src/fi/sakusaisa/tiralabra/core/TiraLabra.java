@@ -258,7 +258,7 @@ public class TiraLabra extends JFrame {
                 
                 // heuristics if A*
                 if (isUseAStar())
-                	processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
+                	processCell.setDistanceToGoal(aStarHeuristic(processCell));
                 else
                 	processCell.setDistanceToGoal(0);
                 
@@ -283,7 +283,7 @@ public class TiraLabra extends JFrame {
                 
                 	// heuristics if A*
                 	if (isUseAStar())
-                		processCell.setDistanceToGoal(aStarHeuristic(processCell, currentCell));
+                		processCell.setDistanceToGoal(aStarHeuristic(processCell));
                 	else
                 		processCell.setDistanceToGoal(0);
                 
@@ -304,7 +304,7 @@ public class TiraLabra extends JFrame {
      * @param processCell the cell we're processing
      * @return the distance to the goal as determined by the heuristic function
      */
-    public float aStarHeuristic(GridCell processCell, GridCell currentCell) {    	
+    public float aStarHeuristic(GridCell processCell) {    	
 
     	int dx = Math.abs(processCell.getCellX() - getGoalCellX());
     	int dy = Math.abs(processCell.getCellY() - getGoalCellY());
