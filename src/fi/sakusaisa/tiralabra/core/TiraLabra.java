@@ -19,7 +19,7 @@ public class TiraLabra extends JFrame {
 
 
      // The data for all cells in the grid is held in this 2d-array.
-    private GridCell[][] gridCells = new GridCell[75][50];
+    private GridCell[][] gridCells;
         
     // closed set as a simple boolean matrix
     private ClosedSet closedSet;
@@ -30,14 +30,10 @@ public class TiraLabra extends JFrame {
     // random variables..
     private GridRenderer gridRenderer;
     private int wantedWindowWidth;
-
 	private int wantedWindowHeight;
     private int startCellX;
-
 	private int startCellY;
-
 	private int goalCellX;
-
 	private int goalCellY;    
     private int cellSize = 10;
     private boolean pathFindingRan = false;  
@@ -121,8 +117,7 @@ public class TiraLabra extends JFrame {
 
         // reset the path if needed
         if (isPathFindingRan())
-            resetPath();
-        
+            resetPath();        
         setPathFindingRan(true);
 
         // clear the sets
@@ -338,9 +333,18 @@ public class TiraLabra extends JFrame {
     public int getCellSize() {
         return this.cellSize;
     }
+    
+    /**
+     * Constructor.
+     * 
+     * @param gridXSize The size of the grid in x axis.
+     * @param gridYSize The size of the grid in y axis.
+     */
+    public TiraLabra(int gridXSize, int gridYSize) {
         
-    public TiraLabra() {
-        
+    	// create the grid
+    	 gridCells = new GridCell[gridXSize][gridYSize];
+    	 
         // define dimensions for the program window taking into account some padding + window decorations
         setWantedWindowWidth(gridCells.length * cellSize + 70 + getInsets().left + getInsets().right);
         setWantedWindowHeight(gridCells[0].length * cellSize + 20 + getInsets().top + getInsets().bottom);
@@ -376,10 +380,16 @@ public class TiraLabra extends JFrame {
      */
     public static void main(String[] args) {
         
+    	final int x = Integer.parseInt(args[0]);
+    	final int y = Integer.parseInt(args[1]);
+
+    	//final int x = 80;
+    	//final int y = 60;
+
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                TiraLabra tiraLabra = new TiraLabra();
+                TiraLabra tiraLabra = new TiraLabra(x, y);
                 tiraLabra.setVisible(true);
             }
         });
