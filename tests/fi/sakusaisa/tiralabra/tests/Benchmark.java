@@ -73,10 +73,10 @@ public class Benchmark {
 		boolean verbose;
 		GridCell testCell1, testCell2;
 		
-		xSize = 1250;
-		ySize = 1250;
+		xSize = 1200;
+		ySize = 1200;
 		
-		runTests = 200;
+		runTests = 500;
 		verbose = false;
 		
 		Benchmark benchmarker = new Benchmark(xSize, ySize);
