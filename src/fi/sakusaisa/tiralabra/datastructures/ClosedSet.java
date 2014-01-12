@@ -60,4 +60,14 @@ public class ClosedSet {
 		else
 			return false;
 	}
+
+	/**
+	 * Provides a direct access to the underlying data array.
+	 * 
+	 * @return A reference to this instances data array.
+	 */
+	public boolean[][] getDataMatrix() {
+		return this.dataMatrix;
+	}
+	
 }
