@@ -57,6 +57,15 @@ public class AvlTree {
 		return node2;
 		
 	}
+
+	/**
+	 * Clears the tree.
+	 * 
+	 * @param compatibility true or false, this is only for compatibility..
+	 */
+	public void clear(boolean compatibility) {
+		this.root = null;
+	}
 	
 	/**
 	 * Do a "rotate left" on a subtree to maintain balance.
@@ -124,14 +133,14 @@ public class AvlTree {
 		
 	}
 	
-	private AvlTreeNode insert(AvlTreeNode newNode) {
+	private AvlTreeNode internalInsert(AvlTreeNode newNode) {
 		
 		if (this.root == null) {
 			this.root = newNode;
 			return newNode;
 		}
 		
-		AvlTreeNode x = this.root, p = x;
+		AvlTreeNode x = this.root, p = null;
 
 		while (x != null) {
 			
@@ -155,12 +164,14 @@ public class AvlTree {
 	 * 
 	 * @param nodeToAdd A GridCell to add into the tree.
 	 */
-	public void avlInsert(GridCell nodeToAdd) {
+	public void insert(GridCell nodeToAdd) {
 		
 		AvlTreeNode newNode = new AvlTreeNode(nodeToAdd);
-		insert(newNode);
+		internalInsert(newNode);
 		
 		AvlTreeNode p = newNode.parent;
+		
+		int vanhKorkVas = -1, vanhKorkOik = -1;
 		
 		while (p != null) {
 			
@@ -202,6 +213,13 @@ public class AvlTree {
 				AvlTreeNode vanhempi = p.parent;
 				AvlTreeNode alipuu;
 				
+				if (vanhempi != null) {
+					if (vanhempi.left != null)
+						vanhKorkVas = vanhempi.left.height;
+					if (vanhempi.right != null)
+						vanhKorkOik = vanhempi.right.height;
+				}
+
 				if (vasVasKork > vasOikKork)
 					alipuu = rightRotate(p);
 				else
@@ -215,7 +233,7 @@ public class AvlTree {
 					vanhempi.right = alipuu;
 				
 				if (vanhempi != null)
-					vanhempi.height = Math.max(vanhempi.left.height, vanhempi.right.height) + 1;
+					vanhempi.height = Math.max(vanhKorkVas, vanhKorkOik) + 1;
 				
 				return;
 			
@@ -226,6 +244,13 @@ public class AvlTree {
 				AvlTreeNode vanhempi = p.parent;
 				AvlTreeNode alipuu;
 
+				if (vanhempi != null) {
+					if (vanhempi.left != null)
+						vanhKorkVas = vanhempi.left.height;
+					if (vanhempi.right != null)
+						vanhKorkOik = vanhempi.right.height;
+				}
+				
 				if (oikOikKork > oikVasKork)
 					alipuu = leftRotate(p);
 				else
@@ -239,7 +264,7 @@ public class AvlTree {
 					vanhempi.right = alipuu;
 				
 				if (vanhempi != null)
-					vanhempi.height = Math.max(vanhempi.left.height, vanhempi.right.height) + 1;
+					vanhempi.height = Math.max(vanhKorkVas, vanhKorkOik) + 1;
 				
 				return;
 				
@@ -341,7 +366,7 @@ public class AvlTree {
 		return (this.root == null);
 	}
 
-	private AvlTreeNode remove(AvlTreeNode pois) {
+	private AvlTreeNode internalRemove(AvlTreeNode pois) {
 		
 		AvlTreeNode vanh, lapsi, seur;
 		
@@ -417,14 +442,14 @@ public class AvlTree {
 	 * 
 	 * @param deleteNode the GridCell to delete.
 	 */
-	public void avlRemove(GridCell deleteNode) {
+	public void remove(GridCell deleteNode) {
 		
 		AvlTreeNode foundNode = contains(deleteNode);
 		
 		if (foundNode == null)
 			return;
 		
-		AvlTreeNode pois = remove(foundNode);
+		AvlTreeNode pois = internalRemove(foundNode);
 		AvlTreeNode p = pois.parent;
 		
 		AvlTreeNode vanhempi = p.parent;

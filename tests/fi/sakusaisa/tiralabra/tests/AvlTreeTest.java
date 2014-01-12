@@ -40,37 +40,37 @@ public class AvlTreeTest {
 
 		assertEquals(true, testTree.isEmpty());
 		
-		testTree.avlInsert(testCell1);
+		testTree.insert(testCell1);
 		assertEquals(false, testTree.isEmpty());
+		assertTrue(testTree.contains(testCell1) != null);
 		assertEquals(3, testTree.getMin().getMovementCost(), 0.0001);
 		
-		testTree.avlInsert(testCell2);
+		testTree.insert(testCell2);
 		assertEquals(1, testTree.getMin().getMovementCost(), 0.0001);
 		
-		testTree.avlInsert(testCell3);
+		testTree.insert(testCell3);
 		assertEquals(1, testTree.getMin().getMovementCost(), 0.0001);
 
 		assertTrue(testTree.contains(testCell2) != null);
 		assertEquals(null, testTree.contains(testCell4));
 		
-		testTree.avlInsert(testCell4);
+		testTree.insert(testCell4);
 		assertEquals(0.5f, testTree.getMin().getMovementCost(), 0.0001);
 		
-		testTree.avlInsert(testCell5);
-		testTree.avlInsert(testCell6);
-		testTree.avlInsert(testCell7);
+		testTree.insert(testCell5);
+		testTree.insert(testCell6);
+		testTree.insert(testCell7);
 		
-		testTree.avlInsert(testCell8);
+		testTree.insert(testCell8);
 		assertEquals(0.1f, testTree.getMin().getMovementCost(), 0.0001);
 	
 		assertEquals(0.1f, testTree.delMin().getMovementCost(), 0.0001);
 		assertEquals(0.5f, testTree.getMin().getMovementCost(), 0.0001);
 		
 		assertTrue(testTree.contains(testCell6) != null);
-		testTree.avlRemove(testCell6);
+		testTree.remove(testCell6);
 		assertTrue(testTree.contains(testCell6) == null);
-		
-		
+			
 	}
 
 }

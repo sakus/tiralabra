@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import fi.sakusaisa.tiralabra.datastructures.AvlTree;
 import fi.sakusaisa.tiralabra.datastructures.ClosedSet;
 import fi.sakusaisa.tiralabra.datastructures.MinBinaryHeap;
 import fi.sakusaisa.tiralabra.ui.GridRenderer;
@@ -26,6 +27,8 @@ public class TiraLabra extends JFrame {
 
     // open set as a custom binary heap implementation
     private MinBinaryHeap openSet;
+    
+    //private AvlTree openSet;
     
     // random variables..
     private GridRenderer gridRenderer;
@@ -239,6 +242,10 @@ public class TiraLabra extends JFrame {
         	
             // if the cell isn't in the open set..
         	foundAtIndex = openSet.contains(processCell);
+        	
+        	//if (openSet.contains(processCell) == null)
+        		//foundAtIndex = -1;
+        	
         	if (foundAtIndex == -1) {
         		
                 // mark the cell as checked, for visualization
@@ -273,6 +280,8 @@ public class TiraLabra extends JFrame {
                 
                 	// if so, update the information - need to remove from openSet first, then re-add.. SLOW!
                 	openSet.removeAtIndex(foundAtIndex);
+                	//openSet.remove(processCell);
+                	
                 	processCell.setArrivedFrom(currentCell);
                 	processCell.setDistanceFromStart(currentCell.getDistanceFromStart() + 1);
                 
@@ -359,6 +368,8 @@ public class TiraLabra extends JFrame {
         // initialize data
         resetGrid();
         openSet = new MinBinaryHeap(100);
+        //openSet = new AvlTree();
+        
         closedSet = new ClosedSet(gridCells.length, gridCells[0].length);
                 
         // set the JPanel for the grid renderer
@@ -380,11 +391,11 @@ public class TiraLabra extends JFrame {
      */
     public static void main(String[] args) {
         
-    	final int x = Integer.parseInt(args[0]);
-    	final int y = Integer.parseInt(args[1]);
+    	//final int x = Integer.parseInt(args[0]);
+    	//final int y = Integer.parseInt(args[1]);
 
-    	//final int x = 80;
-    	//final int y = 60;
+    	final int x = 80;
+    	final int y = 60;
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
