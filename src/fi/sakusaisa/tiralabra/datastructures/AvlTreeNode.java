@@ -41,5 +41,5 @@ public class AvlTreeNode {
 		this.keyValue = this.key.getMovementCost();
 		return this.keyValue;
 	}
-	
+		
 }
