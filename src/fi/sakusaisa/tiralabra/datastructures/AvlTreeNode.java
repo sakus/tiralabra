@@ -1,0 +1,42 @@
+package fi.sakusaisa.tiralabra.datastructures;
+
+import fi.sakusaisa.tiralabra.core.GridCell;
+
+/**
+ * A class to represent a node in an AVL tree.
+ * 
+ * @author Saku Säisä
+ *
+ */
+public class AvlTreeNode {
+
+	protected AvlTreeNode left, right, parent;
+	protected int nodeBalance;
+	protected GridCell nodeKey;
+	
+	/**
+	 * Constructor.
+	 * 
+	 * @param nodeKey A GridCell as the key of this node.
+	 */
+	public AvlTreeNode(GridCell nodeKey) {
+		
+		this.left = null;
+		this.right = null;
+		this.parent = null;
+		
+		this.nodeBalance = 0;
+		this.nodeKey = nodeKey;
+		
+	}
+
+	/**
+	 * Gets the actual key value from the GridCell that is referenced in the node.
+	 * 
+	 * @return The key value.
+	 */
+	public float getKeyValue() {
+		return this.nodeKey.getMovementCost();
+	}
+	
+}
