@@ -11,8 +11,9 @@ import fi.sakusaisa.tiralabra.core.GridCell;
 public class AvlTreeNode {
 
 	protected AvlTreeNode left, right, parent;
-	protected int nodeBalance;
-	protected GridCell nodeKey;
+	protected int height;
+	protected GridCell key;
+	protected float keyValue;
 	
 	/**
 	 * Constructor.
@@ -25,8 +26,9 @@ public class AvlTreeNode {
 		this.right = null;
 		this.parent = null;
 		
-		this.nodeBalance = 0;
-		this.nodeKey = nodeKey;
+		this.height = 0;
+		this.key = nodeKey;
+		this.keyValue = nodeKey.getMovementCost();
 		
 	}
 
@@ -36,7 +38,8 @@ public class AvlTreeNode {
 	 * @return The key value.
 	 */
 	public float getKeyValue() {
-		return this.nodeKey.getMovementCost();
+		this.keyValue = this.key.getMovementCost();
+		return this.keyValue;
 	}
 	
 }
