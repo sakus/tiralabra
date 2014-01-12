@@ -391,11 +391,11 @@ public class TiraLabra extends JFrame {
      */
     public static void main(String[] args) {
         
-    	//final int x = Integer.parseInt(args[0]);
-    	//final int y = Integer.parseInt(args[1]);
+    	final int x = Integer.parseInt(args[0]);
+    	final int y = Integer.parseInt(args[1]);
 
-    	final int x = 80;
-    	final int y = 60;
+    	//final int x = 80;
+    	//final int y = 60;
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
