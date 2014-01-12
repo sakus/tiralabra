@@ -38,9 +38,21 @@ public class AvlTree {
 		
 		if (node1.left != null)
 			node1.left.parent = node1;
+
+		int vasKork1, oikKork1, vasKork2, oikKork2;
 		
-		node1.height = Math.max(node1.left.height, node1.right.height) + 1;
-		node2.height = Math.max(node2.left.height, node2.right.height) + 1;
+		if (node1.left == null) vasKork1 = -1;
+		else vasKork1 = node1.left.height;
+		if (node1.right == null) oikKork1 = -1;
+		else oikKork1 = node1.right.height;
+
+		if (node2.left == null) vasKork2 = -1;
+		else vasKork2 = node2.left.height;
+		if (node2.right == null) oikKork2 = -1;
+		else oikKork2 = node2.right.height;
+		
+		node1.height = Math.max(vasKork1, oikKork1) + 1;
+		node2.height = Math.max(vasKork2, oikKork2) + 1;
 		
 		return node2;
 		
@@ -65,8 +77,20 @@ public class AvlTree {
 		if (node1.right != null)
 			node1.right.parent = node1;
 		
-		node1.height = Math.max(node1.left.height, node1.right.height) + 1;
-		node2.height = Math.max(node2.left.height, node2.right.height) + 1;
+		int vasKork1, oikKork1, vasKork2, oikKork2;
+		
+		if (node1.left == null) vasKork1 = -1;
+		else vasKork1 = node1.left.height;
+		if (node1.right == null) oikKork1 = -1;
+		else oikKork1 = node1.right.height;
+
+		if (node2.left == null) vasKork2 = -1;
+		else vasKork2 = node2.left.height;
+		if (node2.right == null) oikKork2 = -1;
+		else oikKork2 = node2.right.height;
+		
+		node1.height = Math.max(vasKork1, oikKork1) + 1;
+		node2.height = Math.max(vasKork2, oikKork2) + 1;
 		
 		return node2;
 		
@@ -140,12 +164,45 @@ public class AvlTree {
 		
 		while (p != null) {
 			
-			if (p.left.height == (p.right.height + 2)) {
+			int vasKork, oikKork;
+			int vasVasKork = -1, vasOikKork = -1, oikOikKork = -1, oikVasKork = -1;
+			
+			if (p.left == null)
+				vasKork = -1;
+			else {
+				vasKork = p.left.height;
+				if (p.left.left == null)
+					vasVasKork = -1;
+				else
+					vasVasKork = p.left.left.height;
+				
+				if (p.left.right == null)
+					vasOikKork = -1;
+				else
+					vasOikKork = p.left.right.height;				
+			}
+			
+			if (p.right == null)
+				oikKork = -1;
+			else {
+				oikKork = p.right.height;
+				if (p.right.left == null)
+					oikVasKork = -1;
+				else
+					oikVasKork = p.right.left.height;
+				
+				if (p.right.right == null)
+					oikOikKork = -1;
+				else
+					oikOikKork = p.right.right.height;								
+			}
+						
+			if (vasKork == (oikKork + 2)) {
 				
 				AvlTreeNode vanhempi = p.parent;
 				AvlTreeNode alipuu;
 				
-				if (p.left.left.height > p.left.right.height)
+				if (vasVasKork > vasOikKork)
 					alipuu = rightRotate(p);
 				else
 					alipuu = leftRightRotate(p);
@@ -164,12 +221,12 @@ public class AvlTree {
 			
 			}
 			
-			if (p.right.height == (p.left.height + 2)) {
+			if (oikKork == (vasKork + 2)) {
 
 				AvlTreeNode vanhempi = p.parent;
 				AvlTreeNode alipuu;
 
-				if (p.right.right.height > p.right.left.height)
+				if (oikOikKork > oikVasKork)
 					alipuu = leftRotate(p);
 				else
 					alipuu = rightLeftRotate(p);
@@ -188,7 +245,7 @@ public class AvlTree {
 				
 			}
 			
-			p.height = Math.max(p.left.height, p.right.height) + 1;
+			p.height = Math.max(vasKork, oikKork) + 1;
 			p = p.parent;
 			
 		}
@@ -204,6 +261,22 @@ public class AvlTree {
 			node = node.left;
 		
 		return node;
+		
+	}
+	
+	/**
+	 * Finds the minimum vlaue in the tree without deleting it.
+	 * 
+	 * @return The GridCell found.
+	 */
+	public GridCell getMin() {
+		
+		AvlTreeNode min = findMin(this.root);
+
+		if (min != null)
+			return min.key;
+		else
+			return null;
 		
 	}
 	
@@ -357,13 +430,46 @@ public class AvlTree {
 		AvlTreeNode vanhempi = p.parent;
 		AvlTreeNode alipuu = null;
 
+		int vasKork, oikKork;
+		int vasVasKork = -1, vasOikKork = -1, oikOikKork = -1, oikVasKork = -1;
+		
+		if (p.left == null)
+			vasKork = -1;
+		else {
+			vasKork = p.left.height;
+			if (p.left.left == null)
+				vasVasKork = -1;
+			else
+				vasVasKork = p.left.left.height;
+			
+			if (p.left.right == null)
+				vasOikKork = -1;
+			else
+				vasOikKork = p.left.right.height;				
+		}
+		
+		if (p.right == null)
+			oikKork = -1;
+		else {
+			oikKork = p.right.height;
+			if (p.right.left == null)
+				oikVasKork = -1;
+			else
+				oikVasKork = p.right.left.height;
+			
+			if (p.right.right == null)
+				oikOikKork = -1;
+			else
+				oikOikKork = p.right.right.height;								
+		}
+
 		while (p != null) {
 			
 			if (p.height <= -2 || p.height >= 2) {
 				
 				if (p.height <= -2) {
 									
-					if (p.left.left.height > p.left.right.height)
+					if (vasVasKork > vasOikKork)
 						alipuu = rightRotate(p);
 					else
 						alipuu = leftRightRotate(p);
@@ -372,7 +478,7 @@ public class AvlTree {
 				
 				else if (p.height >= 2) {
 					
-					if (p.right.right.height > p.right.left.height)
+					if (oikOikKork > oikVasKork)
 						alipuu = leftRotate(p);
 					else
 						alipuu = rightLeftRotate(p);
@@ -394,7 +500,7 @@ public class AvlTree {
 			}
 			
 			else {
-				p.height = Math.max(p.left.height, p.right.height) + 1;
+				p.height = Math.max(vasKork, oikKork) + 1;
 				p = p.parent;
 			}
 			
